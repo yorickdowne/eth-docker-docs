@@ -4,7 +4,7 @@ title:  Client Resource Usage
 sidebar_label: Client Resource Usage
 ---
 
-# Consensus Clients
+## Consensus Clients
 
 | Client | Version | Date | DB Size  |  RAM | Notes |
 |--------|---------|----  |----------|------|-------|
@@ -19,11 +19,11 @@ Notes on disk usage
 - Lighthouse, Lodestar and Prysm can be resynced in minutes to bring space usage back down, with `./ethd resync-consensus`
 - Lighthouse is working on tree states to continuously prune
 
-# Execution clients
+## Execution clients
 
 For reference, here are disk, RAM and CPU requirements, as well as mainnet initial synchronization times, for different Ethereum execution clients.
 
-## Disk, RAM, CPU requirements
+### Disk, RAM, CPU requirements
 
 SSD, RAM and CPU use is after initial sync, when keeping up with head. 100% CPU is one core.
 
@@ -35,16 +35,15 @@ Please pay attention to the Version and Date. These are snapshots in time of cli
 | Nethermind | 1.27.0 | Jun 2024 | ~800 GiB | ~11 GiB / week | ~ 7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
 | Besu | v24.9.1 | Sep 2024 | ~1.2 TiB | ~7-8 GiB / week | ~ 10 GiB | |
 | Reth | alpha.13 | Jan 2024 | ~1.1 TiB | ~ 3.5 GiB / week | ~ 9 GiB | throws away all logs except deposit contract, and so grows more slowly |
-| Erigon | 2.56.1 | Jan 2024 | ~1.7 TiB | ~7-8 GiB / week | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with less than 32 GiB |
+| Erigon | 3.0.0-beta1 | Feb 2025 | ~350 GiB | TBD / week | See comment | With EIP-4444 pruning. Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. |
 
 Notes on disk usage
 - Reth, Besu, Geth and Erigon continously prune
 - Nethermind - DB size can be reduced when it grew too large, by [online prune](../Support/GethPrune.md). Keep an eye
 on [Paprika](https://github.com/NethermindEth/nethermind/pull/7157) and
 [Path](https://github.com/NethermindEth/nethermind/pull/6499) work
-- Erigon does not compress its DB, leaving that to the filesystem
 
-## Test Systems
+### Test Systems
 
 IOPS is random read-write IOPS [measured by fio with "typical" DB parameters](https://arstech.net/how-to-measure-disk-performance-iops-with-fio-in-linux/), 150G file, without other processes running.
 
@@ -69,7 +68,7 @@ Servers have been configured with [noatime](https://www.howtoforge.com/reducing-
 | [AWS](https://aws.amazon.com/) io1 w/ 10K IOPS  | 8 GiB  | NA      | Intel Dual | 7.6k/2.5k | | t2.large, could not sync Geth. Note t2 throttles CPU |
 | AWS gp3 w/ 16K IOPS  | 16 GiB | NA      | Intel Quad | 12.2k/4.1k | | m6i.xlarge |
 
-## Initial sync times
+### Initial sync times
 
 Please pay attention to the Version and Date. These are snapshots in time of client behavior.
 
@@ -88,10 +87,10 @@ Cache size default in all tests.
 | Geth   | 1.13.0  | August 2023 | OVH Baremetal NVMe | ~ 6 hours | |
 | Nethermind | 1.24.0| Jan 2024 | OVH Baremetal NVMe | ~ 5 hours | Ready to attest after ~ 1 hour |
 | Besu | v24.9.1 | Sep 2024 | OVH Baremetal NVMe | ~ 22 hours | |
-| Erigon | 2.48.1 | August 2023 | OVH Baremetal NVMe | ~ 9 days | |
+| Erigon | 3.0.0-beta1 | Feb 2024 | OVH Baremetal NVMe | ~ 3 hours | With EIP-4444 expiry |
 | Reth  | beta.1 | March 2024 | OVH Baremetal NVMe | ~ 2 days 16 hours | |
 
-## Getting better IOPS
+### Getting better IOPS
 
 Ethereum execution layer clients need a decent amount of IOPS. HDD will not be sufficient.
 
