@@ -20,6 +20,8 @@ instead.
 
 *This release is recommended*
 
+The headline feature is support for the Ethrex and Anchor clients.
+
 **Breaking changes**
 - Require Erigon `3.1.0` or later
 - Require Lodestar `1.34.1` or later
