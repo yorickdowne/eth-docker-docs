@@ -15,15 +15,15 @@ sidebar_label: Client Resource Usage
 | Lodestar | 1.13.0 | Jan 2024 | ~130 GiB | ~8 GiB |
 
 Notes on disk usage
-- Teku, Nimbus, Lodestar and Grandine continuously prune
-- Lighthouse and Prysm can be resynced in minutes to bring space usage back down, with `./ethd resync-consensus`
+- Teku, Nimbus, Lodestar, Prysm and Grandine continuously prune
+- Lighthouse can be resynced in minutes to bring space usage back down, with `./ethd resync-consensus`
 - Lighthouse is working on tree states to continuously prune
 
 # Execution clients
 
 For reference, here are disk, RAM and CPU requirements, as well as mainnet initial synchronization times, for different Ethereum execution clients.
 
-## Disk, RAM, CPU requirements
+## Disk and RAM requirements
 
 SSD and RAM use is after initial sync, when keeping up with head.
 
@@ -39,9 +39,10 @@ DB Size is shown with two values like "1.2 TiB / 830 GiB", for a full node and a
 | Reth | 1.5.0 | July 2025 | ~1.6 TiB / ~950 GiB | ~ 7-8 GiB / week | ~ 9 GiB | |
 | Erigon | 3.0.3 | May 2025 | ~1.0 TiB / ~650 GiB | ~7-8 GiB / week | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
 | Nimbus | 0.1.0-alpha | May 2025 | ?? / 755 GiB | ?? | ?? | With Era1 import |
+| Ethrex | 4.0.0 | October 2025 | NA / 450 GiB | ?? | ?? | |
 
 Notes on disk usage
-- Reth, Besu, Geth, Erigon and Nimbus continously prune
+- Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
 - Nethermind - DB size can be reduced when it grew too large, by [online prune](NodeTypes.md). Keep an eye
 on [Paprika](https://github.com/NethermindEth/nethermind/pull/7157) and
 [Path](https://github.com/NethermindEth/nethermind/pull/6499) work
@@ -62,12 +63,13 @@ Cache size default in all tests.
 
 | Client | Version | Date | Test System | Time Taken |  Notes |
 |--------|---------|------|-------------|------------|--------|
-| Geth   | 1.15.10  | Apr 2025 | OVH Baremetal NVMe | ~ 5 hours | |
-| Nethermind | 1.24.0| Jan 2024 | OVH Baremetal NVMe | ~ 5 hours | Ready to attest after ~ 1 hour |
+| Geth   | 1.15.10  | April 2025 | OVH Baremetal NVMe | ~ 5 hours | |
+| Nethermind | 1.24.0| January 2024 | OVH Baremetal NVMe | ~ 5 hours | Ready to attest after ~ 1 hour |
 | Besu | v25.8.0 | August 2025 | OVH Baremetal NVMe | ~ 13 hours | With history expiry |
 | Erigon | 3.0.3 with expiry PR | May 2025 | OVH Baremetal NVMe | ~ 2 hours | With history expiry |
 | Reth  | beta.1 | March 2024 | OVH Baremetal NVMe | ~ 2 days 16 hours | |
 | Nimbus | 0.1.0-alpha | May 2025 | OVH Baremetal NVME | ~ 5 1/2 days | With Era1 import |
+| Ethrex | 4.0.0 | October 2025 | OVH Baremetal NVME | ~ 2 hours | |
 
 ## Test Systems
 
