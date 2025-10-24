@@ -90,15 +90,11 @@ and `200` for the third client pair. As an example:
 You'll have better peering when you port forward all P2P ports, most of them both UDP and TCP, with the QUIC port being UDP only.
 The intent is to make sure the ports are Internet-reachable.
 
-Also `nano ext-network.yml` and edit it to use `name: vero_default`. This is only necessary until roughly one month after
-Pectra, when the `DOCKER_EXT_NETWORK` variable will start to be used.
-
 Repeat this for all three client combinations. Don't start them yet, we need Vero and its network to be up.
 
 What is happening here:
 - All three client combos are on the same Docker bridge network, the one Vero uses: `vero_default`. This is done
-by appending `ext-network.yml` to the existing `COMPOSE_FILE`, setting `DOCKER_EXT_NETWORK` and, for a limited time,
-editing `ext-network.yml`.
+by appending `ext-network.yml` to the existing `COMPOSE_FILE` and setting `DOCKER_EXT_NETWORK`.
 - We set aliases so each CL and EL can be reached by a unique name
 - We tell the CL which EL it should connect to
 - We tell the CL which MEV node it should connect to
