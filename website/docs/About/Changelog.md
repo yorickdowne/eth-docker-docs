@@ -16,6 +16,42 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v2.18.0.0 2025-11-05
+
+*This release is optional, and recommended*
+
+The headline feature is `MEV_BUILD_FACTOR` to abstract control over local block building, so home stakers
+can control their upload bandwidth better post-Fusaka.
+
+**Breaking changes**
+- Require Ethrex `v5.0.0` or later
+- Require mev boost `v1.10.0` or later
+- Require Grandine `2.0.0` or later
+- Require Vero `v1.3.0` or later
+
+Changes
+- Introduce `MEV_BUILD_FACTOR` to control local block building. `100` means always build remote, `1-99` are percentages
+  of the `builder-boost-factor` of the Validator Client, where `90` would build locally unless remote pays at least
+  10% better.
+- `./ethd config` runs a speed test and suggests a build factor
+- Prometheus retention time is configurable. Thanks @korentzari!
+- Offer Anchor SSV client on mainnet during `./ethd config`
+- Support MEV Boost for Anchor
+- Support WS Websockets for Ethrex
+- Support max peers for Ethrex
+- Improve ssv node sample configuration
+- Increase Grandine peer count to 200. Thanks @saulusgrigaitis!
+- Erigon can now be run in distributed mode, with a CL on another server
+- Suggest history expiry when disk space is low
+- Remove Vero CL check before starting it. It now does this itself
+
+Bug fixes
+- `./ethd update --refresh-targets` no longer touches `PG_DOCKER_TAG`
+- Explicitly restrict Lodestar to v4 when `IPV6=false`, which fixes peering
+- Erigon WS port is now correctly set to the value of `EL_WS_PORT`
+- Adjusted source builds for Grandine and Ethrex
+- Fixed Ethrex entrypoint when `EL_MINIMAL_NODE=false`
+
 ## v2.17.0.0 2025-10-17
 
 *This release is recommended*
