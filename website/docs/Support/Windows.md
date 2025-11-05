@@ -5,8 +5,7 @@ sidebar_label: Windows
 ---
 
 Windows may seem like an "easy button". For Eth Docker, it is anything but, and even running native Windows clients
-presents multiple challenges. They can all be overcome, and the
-[eth-wizard project](https://github.com/stake-house/eth-wizard) aims to do just that.
+presents multiple challenges. They can all be overcome.
 
 If you wish to run Eth Docker on Windows regardless, this is what's required.
 
