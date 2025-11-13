@@ -207,7 +207,7 @@ you use macOS to connect *to* a node server, all you need is an SSH client.
 - As an alternative to Orbstack, you could install [Docker Desktop](https://www.docker.com/products/docker-desktop) and
 allocate 16+ GiB of RAM and 3TB or so of storage space to it, in Preferences->Resources->Advanced. Unlike OrbStack,
 Docker Desktop does not dynamically allocate memory and disk space, and it can be temperamental depending on release.
-- Install prerequisites via homebrew: `brew install coreutils newt bash`
+- Install prerequisites via homebrew: `brew install coreutils newt bash gawk`
 - You may need to log out and back into your terminal session to have the right version of bash. Try `bash --version`
 and verify it's 5.x or higher.
 - Verify git is installed with `git --version`. It will show a Desktop prompt to install it if it isn't.
