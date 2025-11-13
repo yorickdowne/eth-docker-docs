@@ -16,20 +16,25 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
-## v2.18.0.3 2025-11-13
+## v2.18.0.4 2025-11-13
 
 *This is an optional release*
+
+> `v2.18.0.3` broke `./ethd update`. That release has been retracted.
 
 Changes
 - Disable Prysm's beacon DB pruning, until Prysm fixes a bug related to it
 - Prompt for `runc` update on Ubuntu; note vulnerable `runc` versions on Debian
 - Change the default Hoodi checkpoint sync to `https://hoodi.checkpoint.sigp.io`
+- Change the default Traefik tag to `3.6`. Traefik `3.6.1` is the first to work with Docker `29.0.0` and later
+- Major style refactor and improved CI
 
 Bug fixes
-- Fix a bug keeping `./ethd` from running on macOS
+- Fix a bug keeping `./ethd` from running on macOS. macOS now requires `gawk`: `brew install coreutils newt bash gawk`
 - Introduce a `*-builder` service to avoid building the same image multiple times
 - Compose V1 detection works again
 - `./ethd prune-history` works when using Ethrex - but still does nothing ;)
+- Fix `./ethd update` failure, introduced with style refactor in `v2.18.0.3`
 
 ## v2.18.0.2 2025-11-09
 
