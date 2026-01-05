@@ -16,6 +16,64 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v2.19.0.0 2026-01-5
+
+*This is an optional release*
+
+**Breaking changes**
+
+- Breaking only for users of Ansible and similar automation: `CL_ARCHIVE_NODE` and `CL_MINIMAL_NODE` are gone, replaced by
+`CL_NODE_TYPE`. Ditto for `EL`. See `default.env` for implemented values.
+
+Changes
+- Support Lighthouse with zkProofs attestations (Lean Ethereum), no execution layer at all. **Here Be Dragons** This is a highly experimental mode
+and is not rational to run right now, as there will be no timeliness rewards. Adjust `.env`:
+```
+COMPOSE_FILE=lighthouse.yml:mev-boost.yml
+# Could be lighthouse-cl-only.yml. The main point is NO EL, plus any Grafana &c, mev-boost or commit-boost-pbs
+CL_NODE_TYPE=pruned-with-zkproofs
+CL_EXTRAS=--boot-nodes enr:-Oy4QJgMz9S1Eb7s13nKIbulKC0nvnt7AEqbmwxnTdwzptxNCGWjc9ipteUaCwqlu2bZDoNz361vGC_IY4fbdkR1K9iCDeuHYXR0bmV0c4gAAAAAAAAABoNjZ2MEhmNsaWVudNGKTGlnaHRob3VzZYU4LjAuMYRldGgykK1TLOsGAAAAAEcGAAAAAACCaWSCdjSCaXCEisV68INuZmSEzCxc24RxdWljgiMpiXNlY3AyNTZrMaEDEIWq41UTcFUgL8LRletpbIwrrpxznIMN_F5jRgatngmIc3luY25ldHMAg3RjcIIjKIR6a3ZtAQ
+LH_SRC_BUILD_TARGET=ethproofs/zkattester-demo
+LH_SRC_REPO=https://github.com/ethproofs/lighthouse
+LH_DOCKERFILE=Dockerfile.source
+MEV_BOOST=true
+MEV_BUILD_FACTOR=100
+```
+and then run `./ethd update`, wait for source build, and `./ethd up`
+- Support Grandine as a Nethermind plugin. This is experimental for now. Coming from `grandine-allin1.yml`, you'd adjust `.env`:
+```
+COMPOSE_FILE=grandine-plugin-allin1.yml:nethermind.yml
+# Could also be grandine-plugin.yml; plus add whatever else the user runs such as commit-boost-pbs, grafana, &c
+CL_NODE=http://execution:5052
+NM_DOCKER_REPO=sifrai/grandine
+NM_DOCKER_TAG=unstable-nethermind-1.35.8
+```
+and then run `./ethd update` followed by `./ethd up`
+- Nethermind gained new pruning options: `EL_NODE_TYPE` can be `rolling-expiry`, which keeps 1 year of history by default, or
+`pre-cancun-expiry`, which does what it says on the tin. Note that `rolling-expiry` is still experimental
+- Added Tempo support for traces to `grafana.yml` and `grafana-rootless.yml`. Clients that support traces will now send them there
+by default; if you know of a client that can and currently doesn't, please open an issue for it
+- Grandine no longer defaults to aggressive pruning. The old behavior can be sought with `CL_NODE_TYPE=aggressive-pruned`
+- Add another Grafana dashboard for host and node monitoring
+- multi-line variables with single quotes are now supported in `.env`, example
+```
+HYPOTHETICAL_JSON_VAR='[
+  "enode:something",
+  "enode:anotherthing"
+]
+'
+```
+- Update `lido-obol.yml` for Fusaka readiness. Thanks @nameisremus!
+- Added `CONTRIBUTOOR_EXTRAS` in `.env`, so users can pass additional parameters to Pandaops Contributoor
+- Teku heap now defaults to `8g`
+- Switch to a new `cadvisor` repo
+- Lodestar source build uses Node 24. Thanks @nflaig!
+- Teku and Besu run on JRE 25 when source-built
+
+
+Bug fixes
+- Fixed Nimbus VC `MEV_BUILD_FACTOR`
+
 ## v2.18.0.4 2025-11-13
 
 *This is an optional release*
