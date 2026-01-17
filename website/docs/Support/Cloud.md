@@ -108,7 +108,7 @@ First, verify that Grafana is running and port 3000 is open to world using somet
 Next, create ufw rules to allow access from `localhost` and drop access from anywhere else:
 
 - `sudo ufw allow proto tcp from 127.0.0.1 to any port 3000`
-- `sudo ufw deny proto tcp from any to any 3000`
+- `sudo ufw deny proto tcp from any to any port 3000`
 
 Check again on "yougetsignal" or the like that port 3000 is now closed.
 
@@ -128,7 +128,7 @@ First, verify that Prysm Web UI is running and port 7500 is open to world using 
 Next, create ufw rules to allow access from `localhost` and drop access from anywhere else:
 
 - `sudo ufw allow proto tcp from 127.0.0.1 to any port 7500`
-- `sudo ufw deny proto tcp port 7500`
+- `sudo ufw deny proto tcp from any to any port 7500`
 
 Check again on [you get signal](https://www.yougetsignal.com/tools/open-ports/) or the like that port 7500 is now closed.
 
