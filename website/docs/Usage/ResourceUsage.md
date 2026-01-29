@@ -29,17 +29,18 @@ SSD and RAM use is after initial sync, when keeping up with head.
 
 Please pay attention to the Version and Date. These are snapshots in time of client behavior. Initial state size increases over time, and execution clients are always working on improving their storage engines.
 
-DB Size is shown with two values like "1.2 TiB / 830 GiB", for a full node and a node with pre-merge history expiry, respectively.
+DB Size is shown with values for different types of nodes: Full, and different levels of expiry: Post-Merge history only; Post-Cancun history only; rolling expiry; aggressive expiry.
+"tbd" means I haven't gathered the data. "n/a" means the client does not support this expiry mode, yet.
 
-| Client | Version | Date | DB Size  | DB Growth | RAM | Notes |
-|--------|---------|----  |----------|-----------|-----|-------|
-| Geth   | 1.15.11 | May 2025 | ~1.2 TiB / ~830 GiB | ~7-8 GiB / week | ~ 8 GiB | |
-| Nethermind | 1.31.10 | May 2025 | ~1.1 TiB / ~740 GiB | ~11 GiB / week | ~ 7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
-| Besu | v25.8.0 | August 2025 | ~1.35 TiB / ~850 GiB | ~7-8 GiB / week | ~ 10 GiB | |
-| Reth | 1.5.0 | July 2025 | ~1.6 TiB / ~950 GiB | ~ 7-8 GiB / week | ~ 9 GiB | |
-| Erigon | 3.0.3 | May 2025 | ~1.0 TiB / ~650 GiB | ~7-8 GiB / week | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
-| Nimbus | 0.1.0-alpha | May 2025 | ?? / 755 GiB | ?? | ?? | With Era1 import |
-| Ethrex | 4.0.0 | October 2025 | NA / 450 GiB | ?? | ?? | |
+| Client | Version | Date | DB Full | DB Post-Merge | DB Post-Cancun | DB Rolling | DB Aggressive | RAM | Notes |
+|--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
+| Geth   | 1.15.11 | May 2025 | ~1.2 TiB | ~830 GiB | n/a | n/a | n/a | ~ 8 GiB | |
+| Nethermind | 1.31.10 | May 2025 | ~1.1 TiB | ~740 GiB | tbd | tbd | n/a | ~ 7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
+| Besu | v25.8.0 | August 2025 | ~1.35 TiB | ~850 GiB | n/a | tbd | ~290 GiB | ~ 10 GiB | |
+| Reth | 1.5.0 | July 2025 | ~1.6 TiB | ~950 GiB | tbd | tbd | tbd | ~ 9 GiB | |
+| Erigon | 3.0.3 | May 2025 | ~1.0 TiB | ~650 GiB | n/a | tbd | tbd | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
+| Nimbus | 0.1.0-alpha | May 2025 | tbd | 755 GiB | n/a | n/a | n/a | With Era1 import |
+| Ethrex | 4.0.0 | October 2025 | n/a | 450 GiB | n/a | n/a | n/a | |
 
 Notes on disk usage
 - Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
