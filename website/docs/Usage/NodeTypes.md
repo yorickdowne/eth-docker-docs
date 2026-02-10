@@ -10,19 +10,25 @@ You can run an Archive node, with all history and full lookup for all historical
 
 You can run a Full node, with all history and limited lookup for historical transactions. This fits into a 4TB drive and is often the choice for RPC nodes.
 
-You can run an Expired node, with pre-merge history and receipts gone. This fits into a 2TB drive and is often the choice for validator nodes.
+You can run an Expired node, with pre-merge history and receipts gone. This fits into a 2TB drive and is often the choice for validator nodes. This is the default.
 
 This is controlled by variables in `.env`, which can be set with `nano .env`. Switching from one type to another often requires a full resync.
 
-`EL_ARCHIVE_NODE` - run the execution layer node as an archive. The required space can vary widely depending on the client: From right around 2 TB to well over 50TB  
-`EL_MINIMAL_NODE` - run the execution layer node with history expiry. `true` is pre-merge history expiry; `rolling` is 1-year rolling if the client supports it;
-`aggressive` expires all but the last few blocks, if the client supports it
+`EL_NODE_TYPE` can be one of:
+- `archive`
+- `full`
+- `pre-merge-expiry` - the default
+- `pre-cancun-expiry` - supported by some EL clients, see `default.env`
+- `rolling-expiry` - keeps one year of history by default. Supported by some EL clients, see `default.env`
+- `aggressive-expiry` - keep minimal history. Supported by some EL clients, see `default.env`
 
-If both variables are set to `false`, you have a Full node.
+Please be careful with expiry options: Expired history also means expired receipts, which can throw protocols such as RocketPool, SSV, Stakewise for a loop. All of these work with pre-merge-expiry, but will likely break with the other expiry options, unless they get receipts from another (unexpired) RPC endpoint.
 
-`CL_ARCHIVE_NODE` - run the consensus layer node as an archive, including blobs where supported
-`CL_MINIMAL_NODE` - run the consensus layer node with minimal storage, if the client makes that distinction. See the `--help` for Grandine and Teku, for example,
-with `./ethd cmd run --rm consensus --help`, or directly via `docker run` on their image.
+`CL_NODE_TYPE` can be one of:
+- `archive`
+- `full`
+- `pruned` - the default
+- `pruned-with-zkproofs` - **highly** experimental running mode without an execution layer client, currently only supported by a special build of Lighthouse
 
 ## Switch from Full to Expired node
 
