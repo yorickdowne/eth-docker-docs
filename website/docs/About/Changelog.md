@@ -16,6 +16,42 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v2.19.1.0 2026-02-10
+
+*This is an optional release. It is required when using Lodestar `v1.39.0` or later*
+
+**Breaking changes**
+
+- Lighthouse VC (not relevant if only using the CL) requires version `v8.1.0` or later
+- Erigon, if using `IPV6=true`, requires version `3.3.3` or later
+- Lodestar source build (using the Lodestar binary Docker image is not affected) requires version `1.39.0` or later
+
+Changes
+- Support additional parameters for MEV Boost via `MEV_EXTRAS` in `.env`. Thanks @enriquevalenzuelagalaxy!
+- New expiry modes:
+  - Reth can now be configured for "pre-cancun-expiry", "rolling-expiry" and "aggressive-expiry"
+  - Besu can now be configured for "rolling-expiry" and "aggressive-expiry"
+  - Erigon can now be configured for "rolling-expiry"
+- Besu history expiry now requires a resync
+- Lighthouse VC will append graffiti to indicate client type, to help with client distribution analysis
+- Lighthouse auto-ENR has been enabled on IPv6. This helps users behind CGNAT who want to run dual-stack
+- Grandine auto-ENR has been enabled on IPv6. This helps users behind CGNAT who want to run dual-stack
+- Besu discv5 has been disabled. It is not production-ready yet
+- Grandine sends traces to Tempo by default
+- Tempo version has been pinned, to `v2.10.0`
+- Update Vero build to remove multiprocessing metrics directory. Thanks @eth2353!
+- Update Lodestar build to work with Lodestar `v1.39.0` or later. Thanks @nflaig!
+- Added an `init` service to `web3signer.yml`, to reduce the amount of times web3signer needs to restart after `./ethd update`
+
+Bug fixes
+- Fixed max peer parameter for Ethrex
+- Fixed Web3signer for Grandine in Nethermind. Thanks @sauliusgrigaitis!
+- Remove additional "build" directive from Lodestar validator
+- Lodestar entrypoint correctly detects the host's IPv6 address again
+- `./ethd config` queries for VC again when Erigon's Caplin is in use
+- `./ethd config` no longer warns when using Grandine in Nethermind plugin
+
+
 ## v2.19.0.0 2026-01-5
 
 *This is an optional release*
