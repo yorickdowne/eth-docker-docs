@@ -33,3 +33,22 @@ If you are running a validator client only, such as with a RocketPool "reverse h
 is to set `MEV_BOOST=true` in `.env`. `mev-boost.yml` and `MEV_RELAYS` are not needed and won't be used if they are
 set, as they are relevant only where the Consensus Layer client runs. See the [Overview](/) drawing for how these
 components communicate.
+
+### Building locally
+
+You have the option of building local blocks, when remote blocks don't pay enough for your liking. Depending on
+your VC (Validator Client), you may already be doing that, in fact!
+
+Two parameters in `.env` control this behavior.
+
+`MEV_MIN_BID`, set to an ETH value, e.g. `0.003`. Unless a remote block pays more than this, you build locally.
+
+`MEV_BUILD_FACTOR`, set to a percentage cutoff point. Several VCs default to `90`, which means "unless remote
+pays at least 10% more, build locally". `100` has a special meaning in Eth Docker and means "always build
+remote". The in-protocol value for this is `18446744073709551615`, which Eth Docker sets "under the hood"
+when it sees `100`.
+
+Since the Fusaka hard fork in December 2025, local block building may require large upload bandwidth, up to
+200 Mbit/s. Restricting the number of blobs to include when building locally would resolve this, but that
+functionality is not yet present as of February 2026. If your upload bandwidth is constrained,
+`MEV_BUILD_FACTOR=100` can make sense.
