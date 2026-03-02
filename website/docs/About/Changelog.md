@@ -16,6 +16,39 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v26.3.0 2026-03-02
+
+*This is an optional release*
+
+**Breaking changes**
+
+- Requires Geth `v1.17.0` or later when using the built-in Grafana via `grafana.yml` or `grafana-rootless.yml`
+
+Changes
+- `./ethd prune-history` now offers a menu of expiry options, depending on which the chosen client supports. This ranges from "pre-merge"
+to "pre-cancun", "rolling" and even "aggressive".
+- Support `MAX_BLOBS` with Geth and Nimbus EL. `./ethd config` will attempt to compute `MAX_BLOBS` depending on upload bandwidth. This
+can allow bandwidth-constrained nodes to still build locally.
+- Initial support for Nimbus Verified Proxy. This is useful when expiring more than pre-merge history while also needing receipts,
+e.g. when running RocketPool, Nodeset or SSV. Note this client is still in alpha.
+- Geth sends traces to Tempo by default, when using `grafana.yml` or `grafana-rootless.yml`
+- Support EraE file import with Geth. Note there aren't many EraE files yet, this functionality requires more testing.
+- Remove Era/Era1 import from Nimbus EL. Only support EraE going forward.
+- Support Reth `v1.11.0` and later
+- Support optional pre- and post-update hooks when running `./ethd update`. The optional files `pre-ethd-update.sh` and/or `post-ethd-update.sh`
+are executed just before and after `./ethd update`, and should be bash scripts. Thanks @erl-100!
+- Remove deprecated `--in-process-validators=false` from Nimbus
+- All Dockerfiles explicitly add `adduser` and `bash`, even if these are currently already shipped with the client image
+- From this release, Eth Docker uses a calendar version scheme
+
+Bug fixes
+- Fixed a bug that kept Lighthouse from starting when using the new graffiti append option. Thanks @victorelec14!
+- Fixed a bug in the Lighthouse jwtsecret ownership check. Thanks @Olexandr88!
+- Ensure `ping` utility is installed before testing IPv6 connectivity
+- Fixed a bug that broke Geth telemetry. Thanks @marcovc!
+- Remove a duplicate `gosu` install from the Nimbus-EL Dockerfile
+
+
 ## v2.19.1.0 2026-02-10
 
 *This is an optional release. It is required when using Lodestar `v1.39.0` or later*
