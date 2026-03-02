@@ -36,11 +36,11 @@ DB Size is shown with values for different types of nodes: Full, and different l
 |--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
 | Geth   | 1.15.11 | May 2025 | ~1.2 TiB | ~830 GiB | n/a | n/a | n/a | ~ 8 GiB | |
 | Nethermind | 1.36.0 | February 2026 | ~1.1 TiB | ~740 GiB | ~600 GiB | ~240 GiB | n/a | ~ 7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
-| Besu | v25.8.0 | August 2025 | ~1.35 TiB | ~850 GiB | n/a | tbd | ~290 GiB | ~ 10 GiB | |
-| Reth | 1.5.0 | July 2025 | ~1.6 TiB | ~950 GiB | tbd | tbd | tbd | ~ 9 GiB | |
-| Erigon | 3.0.3 | May 2025 | ~1.0 TiB | ~650 GiB | n/a | tbd | tbd | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
-| Nimbus | 0.1.0-alpha | May 2025 | tbd | 755 GiB | n/a | n/a | n/a | With Era1 import |
-| Ethrex | 4.0.0 | October 2025 | n/a | 450 GiB | n/a | n/a | n/a | |
+| Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~ 10 GiB | |
+| Reth | 1.11.1 | February 2026 | tbd | tbd | tbd | tbd | tbd | ~ 9 GiB | Storage v2 |
+| Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
+| Nimbus | 0.1.0-alpha | May 2025 | tbd | 755 GiB | n/a | n/a | n/a | | With Era1 import |
+| Ethrex | 4.0.0 | October 2025 | n/a | 450 GiB | n/a | n/a | n/a | | |
 
 Notes on disk usage
 - Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
@@ -65,11 +65,10 @@ Cache size default in all tests.
 | Client | Version | Date | Node Type | Test System | Time Taken |  Notes |
 |--------|---------|------|-----------|-------------|------------|--------|
 | Geth   | 1.15.10  | April 2025 | Full | OVH Baremetal NVMe | ~ 5 hours | |
-| Nethermind | 1.24.0| January 2024 | Full | OVH Baremetal NVMe | ~ 5 hours | Ready to attest after ~ 1 hour |
 | Nethermind | 1.36.0| February 2026 | post-Cancun | Netcup RS G11 | ~ 2 hours | Ready to attest after ~ 1 hour |
-| Besu | v25.8.0 | August 2025 | post-merge | OVH Baremetal NVMe | ~ 13 hours | |
-| Erigon | 3.0.3 | May 2025 | post-merge | OVH Baremetal NVMe | ~ 2 hours | |
-| Reth  | beta.1 | March 2024 | Full | OVH Baremetal NVMe | ~ 2 days 16 hours | |
+| Besu | v26.1.0 | February 2026 | rolling | Netcup RS G11 | ~ 13 hours | |
+| Erigon | 3.3.8 | February 2026 | rolling | Netcup RS G11 | ~ 12 hours | |
+| Reth  | 1.11.1 | February 2026 | Full | Legacy miniPC | ~ 5 days | |
 | Nimbus | 0.1.0-alpha | May 2025 | Full | OVH Baremetal NVME | ~ 5 1/2 days | With Era1 import |
 | Ethrex | 4.0.0 | October 2025 | post-merge | OVH Baremetal NVME | ~ 2 hours | |
 
@@ -88,24 +87,25 @@ Specifically `fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --
 Servers have been configured with [noatime](https://www.howtoforge.com/reducing-disk-io-by-mounting-partitions-with-noatime) and [no swap](https://www.geeksforgeeks.org/how-to-permanently-disable-swap-in-linux/) to improve latency.
 
 
-| Name                 | RAM    | SSD Size | CPU        | r/w IOPS | r/w latency | Notes |
-|----------------------|--------|----------|------------|------|-------|--------|
-| [OVH](https://ovhcloud.com/) Baremetal NVMe   | 32 GiB | 1.9 TB  | Intel Hexa | 177k/59k | 150us max | This is in line with any good NVMe drive |
-| [Netcup](https://netcup.eu) RS G11 | 96 GiB | 3 TB | 20 vCPU on an AMD 84-core | | 400us avg / 1.1ms max | This is an example of a system with storage that is fast enough to attest, but too slow to get best rewards |
+| Name                 | RAM    | SSD Size | CPU        | r/w latency | Notes |
+|----------------------|--------|----------|------------|-------------|-------|
+| [OVH](https://ovhcloud.com/) Baremetal NVMe   | 32 GiB | 1.9 TB  | Intel Hexa | 150us max | Datacenter-class NVMe drive |
+| [Netcup](https://netcup.eu) RS G11 | 96 GiB | 3 TB | 20 vCPU on an AMD 84-core | 400us avg / 1.1ms max | Storage is fast enough to attest, but too slow to get best rewards |
+| Legacy miniPC | 32 GiB | 2 TB | Intel Quad 6th gen | 230 us avg / 320 us max | Home staker setup with PCIe 3 NVMe and older CPU |
 
 ## Getting better latency
 
-Ethereum execution layer clients need decently low latency. IOPS can be used as a proxy for that. HDD will not be sufficient.
+Ethereum execution layer clients need decently low latency. Measure latency with `ioping` when the system is under load. NVMe SSD is highly recommended; HDD will not be sufficient.
 
-For cloud providers, here are some results for syncing Geth.
-- AWS, gp2 or gp3 with provisioned IOPS have both been tested successfully.
+For cloud providers, here are some results for syncing Geth. In a nutshell, use baremetal instead.
+- AWS, gp2 or gp3 with provisioned IOPS delivered sub-par performance during sync committees.
 - Linode block storage, make sure to get NVMe-backed storage.
 - Netcup RS G11 works, but rewards are not optimal.
 - There are reports that Digital Ocean block storage is too slow, as of late 2021.
 - Strato V-Server is too slow as of late 2021.
 
 Dedicated servers with NVMe SSD will always have sufficiently low latency. Do avoid hardware RAID though, see below.
-OVH Advance line is a well-liked dedicated option; Linode or Strato or any other provider will work as well.
+OVH Advance line is a well-liked dedicated option; latitude.sh, Linode, Vultr or Strato or any other baremetal provider will work as well.
 
 For own hardware, we've seen three causes of high latency:
 - DRAMless or QLC SSD. Choose a ["mainstream" SSD](https://gist.github.com/yorickdowne/f3a3e79a573bf35767cd002cc977b038)
