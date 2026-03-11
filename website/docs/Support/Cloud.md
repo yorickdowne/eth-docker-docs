@@ -44,7 +44,7 @@ COMMIT
 ```
 
 Note this deliberately keeps ufw rules from influencing any traffic sourced from the standard Docker private IP ranges.
-This may *not* be what you need, in which case just remove those seven lines, and be sure to allow needed
+This may *not* be what you need, in which case just remove those five lines, and be sure to allow needed
 container traffic through explicit ufw rules, if you are blocking a port.
 
 ### 2) Edit after6.rules:
@@ -53,21 +53,21 @@ container traffic through explicit ufw rules, if you are blocking a port.
 
 ```
 *filter
-:ufw-user-input - [0:0]
+:ufw6-user-input - [0:0]
 :DOCKER-USER - [0:0]
 
 # ufw in front of docker while allowing all inter-container traffic
 -A DOCKER-USER -s fe80::/10 -j RETURN
 -A DOCKER-USER -s fd00::/8 -j RETURN
 
--A DOCKER-USER -j ufw-user-input
+-A DOCKER-USER -j ufw6-user-input
 -A DOCKER-USER -j RETURN
 
 COMMIT
 ```
 
 Note this deliberately keeps ufw rules from influencing any traffic sourced from the standard Docker ULA IPv6 ranges.
-This may *not* be what you need, in which case just remove those seven lines, and be sure to allow needed
+This may *not* be what you need, in which case just remove those two lines, and be sure to allow needed
 container traffic through explicit ufw rules, if you are blocking a port.
 
 ### 3) Edit before.init
@@ -82,14 +82,14 @@ stop)
     iptables -X ufw-user-input || true
     ip6tables -F DOCKER-USER || true
     ip6tables -A DOCKER-USER -j RETURN || true
-    ip6tables -X ufw-user-input || true
+    ip6tables -X ufw6-user-input || true
     ;;
 ```
 
 Then, make it executable: `sudo chmod 750 /etc/ufw/before.init`
 
-Dropping `ufw-user-input` through `before.init` is a required step. Without it, ufw cannot be reloaded, it would display an error message
-stating "ERROR: Could not load logging rules".
+Dropping `ufw-user-input` and `ufw6-user-input` through `before.init` is a required step. Without it, ufw cannot be reloaded,
+it would display an error message stating "ERROR: Could not load logging rules".
 
 ### 4) Reload ufw
 
