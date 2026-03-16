@@ -35,12 +35,12 @@ DB Size is shown with values for different types of nodes: Full, and different l
 | Client | Version | Date | DB Full | DB Post-Merge | DB Post-Cancun | DB Rolling | DB Aggressive | RAM | Notes |
 |--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
 | Geth   | 1.15.11 | May 2025 | ~1.2 TiB | ~830 GiB | n/a | n/a | n/a | ~ 8 GiB | |
-| Nethermind | 1.36.0 | February 2026 | ~1.1 TiB | ~740 GiB | ~600 GiB | ~240 GiB | n/a | ~ 7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
-| Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~ 10 GiB | |
-| Reth | 1.11.1 | February 2026 | tbd | tbd | tbd | tbd | tbd | ~ 9 GiB | Storage v2 |
+| Nethermind | 1.36.0 | February 2026 | ~1.1 TiB | ~740 GiB | ~600 GiB | ~240 GiB | n/a | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
+| Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~10 GiB | |
+| Reth | 1.11.3 | February 2026 | tbd | tbd | tbd | tbd | tbd | ~12 GiB | Storage v2 |
 | Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
 | Nimbus | 0.1.0-alpha | May 2025 | tbd | 755 GiB | n/a | n/a | n/a | | With Era1 import |
-| Ethrex | 4.0.0 | October 2025 | n/a | 450 GiB | n/a | n/a | n/a | | |
+| Ethrex | 10.0.0-rc.1 | March 2026 | n/a | ~300 GiB | n/a | n/a | n/a | ~10 GiB | |
 
 Notes on disk usage
 - Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
@@ -68,9 +68,9 @@ Cache size default in all tests.
 | Nethermind | 1.36.0| February 2026 | post-Cancun | Netcup RS G11 | ~ 2 hours | Ready to attest after ~ 1 hour |
 | Besu | v26.1.0 | February 2026 | rolling | Netcup RS G11 | ~ 13 hours | |
 | Erigon | 3.3.8 | February 2026 | rolling | Netcup RS G11 | ~ 12 hours | |
-| Reth  | 1.11.1 | February 2026 | Full | Legacy miniPC | ~ 5 days | |
+| Reth  | 1.11.3 | February 2026 | Full | Legacy miniPC | ~ 5 days | |
 | Nimbus | 0.1.0-alpha | May 2025 | Full | OVH Baremetal NVME | ~ 5 1/2 days | With Era1 import |
-| Ethrex | 4.0.0 | October 2025 | post-merge | OVH Baremetal NVME | ~ 2 hours | |
+| Ethrex | 10.0.0-rc.1 | March 2026 | post-merge | Netcup RS G11 | ~ 2 hours | |
 
 ## Test Systems
 
