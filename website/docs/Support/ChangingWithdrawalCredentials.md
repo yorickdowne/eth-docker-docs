@@ -4,7 +4,16 @@ sidebar_position: 8
 sidebar_label: Changing Withdrawal Credentials
 ---
 
-Eth Docker supports using ethdo in an online/offline fashion to prepare withdrawal credential changes files. This follows the [ethdo](https://github.com/wealdtech/ethdo/blob/master/docs/changingwithdrawalcredentials.md) instructions for this process.
+## Overview
+
+This page describes changing from a Type 0, `0x00` validator with BLS key withdrawal credentials, to a Type 1, `0x01` validator with a withdrawal address set.
+
+It does not describe moving a validator from Type 1 to Type 2, `0x02`, introduced with Pectra and controlled via the withdrawal address wallet.  
+That change is called a "consolidation" and can be done via the official Ethereum [launchpad](https://launchpad.ethereum.org/en/validator-actions), via
+a third-party tool [PectraStaking](https://pectrastaking.com/), or the Ethstaker Staker Console, which was in pre-launch audits as of March 2026.
+
+Eth Docker supports using ethdo in an online/offline fashion to prepare withdrawal credential change files for setting a withdrawal address.
+This follows the [ethdo](https://github.com/wealdtech/ethdo/blob/master/docs/changingwithdrawalcredentials.md) instructions for this process.
 
 **Do NOT under any circumstances enter your mnemonic into a machine that is online or used for daily tasks**
 
