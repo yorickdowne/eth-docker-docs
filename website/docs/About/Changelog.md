@@ -41,6 +41,7 @@ Changes
 
 Bug fixes
 - Fixed Reth `full` and `pre-merge-expiry` node types. Not all pruning parameters were being applied.
+- Handle a race condition on slow machines more gracefully: The CL waits up to 25 seconds for the EL to create the JWT secret file
 
 ## v26.3.0 2026-03-02
 
