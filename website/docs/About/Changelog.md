@@ -18,13 +18,14 @@ instead.
 
 ## v26.3.1 2026-03-23
 
-*This is an optional release*
+*This is a recommended release for Reth users*
 
 **Breaking changes**
 
 - Requires Nimbus-EL `v0.3.0` or later
 - Requires Besu `26.2.0` or later when using `rolling-expiry` or `aggressive-expiry` or when using IPv6
 - Requires Lodestar `v1.41.0` or later
+- `pre-cancun-expiry` becomes `pre-prague-expiry`. If you use it, please manually adjust `.env`. You do *not* need to resync.
 
 Changes
 - Support Lodestar QUIC
@@ -38,6 +39,9 @@ Changes
 - Nimbus Verified Proxy supports `Dockerfile.binary`
 - `PROXY_EXTRAS` for Nimbus Verified Proxy
 
+Bug fixes
+- Fixed Reth `full` and `pre-merge-expiry` node types. Not all pruning parameters were being applied.
+- Handle a race condition on slow machines more gracefully: The CL waits up to 25 seconds for the EL to create the JWT secret file
 
 ## v26.3.0 2026-03-02
 
