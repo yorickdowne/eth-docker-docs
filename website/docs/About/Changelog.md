@@ -25,6 +25,7 @@ instead.
 - Requires Nimbus-EL `v0.3.0` or later
 - Requires Besu `26.2.0` or later when using `rolling-expiry` or `aggressive-expiry` or when using IPv6
 - Requires Lodestar `v1.41.0` or later
+- `pre-cancun-expiry` becomes `pre-prague-expiry`. If you use it, please manually adjust `.env`. You do *not* need to resync.
 
 Changes
 - Support Lodestar QUIC
