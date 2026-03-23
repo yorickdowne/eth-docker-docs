@@ -18,7 +18,7 @@ instead.
 
 ## v26.3.1 2026-03-23
 
-*This is an optional release*
+*This is a recommended release for Reth users*
 
 **Breaking changes**
 
@@ -39,6 +39,8 @@ Changes
 - Nimbus Verified Proxy supports `Dockerfile.binary`
 - `PROXY_EXTRAS` for Nimbus Verified Proxy
 
+Bug fixes
+- Fixed Reth `full` and `pre-merge-expiry` node types. Not all pruning parameters were being applied.
 
 ## v26.3.0 2026-03-02
 
