@@ -16,6 +16,20 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v26.3.2 2026-03-23
+
+*This is a bugfix release*
+
+If you are running Lodestar or Web3signer, use this version, not `v26.3.1`
+
+Changes
+- Adjusted Ethrex source build to be able to build the current release
+
+Bug fixes
+- Fixed collation errors after upgrade to PostgreSQL 18 from `17-bookworm`
+- Disabled Lodestar QUIC unless `IPV6=true`. There is a bug in the Lodestar QUIC library on IPv4-only hosts
+
+
 ## v26.3.1 2026-03-23
 
 *This is a recommended release for Reth users*
