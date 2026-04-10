@@ -12,7 +12,7 @@ module.exports = {
     },
     scripts: ['https://buttons.github.io/buttons.js'],
     future: {
-      experimental_faster: true,
+      faster: true,
       v4: true,
     },
     themeConfig: {
