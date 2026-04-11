@@ -32,15 +32,15 @@ Please pay attention to the Version and Date. These are snapshots in time of cli
 DB Size is shown with values for different types of nodes: Full, and different levels of expiry: Post-Merge history only; Post-Cancun history only; rolling expiry; aggressive expiry.
 "tbd" means I haven't gathered the data. "n/a" means the client does not support this expiry mode, yet.
 
-| Client | Version | Date | DB Full | DB Post-Merge | DB Post-Cancun | DB Rolling | DB Aggressive | RAM | Notes |
+| Client | Version | Date | DB Full | DB Post-Merge | DB Post-Prague | DB Rolling | DB Aggressive | RAM | Notes |
 |--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
-| Geth   | 1.15.11 | May 2025 | ~1.2 TiB | ~830 GiB | n/a | n/a | n/a | ~ 8 GiB | |
-| Nethermind | 1.36.0 | February 2026 | ~1.1 TiB | ~740 GiB | ~600 GiB | ~240 GiB | n/a | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
+| Geth   | 1.17.2 | April 2026 | ~1.2 TiB | ~830 GiB | ~580 GiB | n/a | n/a | ~ 8 GiB | |
+| Nethermind | 1.36.2 | April 2026 | ~1.1 TiB | ~740 GiB | ~468 GiB | ~240 GiB | n/a | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
 | Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~10 GiB | |
-| Reth | 1.11.3 | February 2026 | tbd | tbd | tbd | tbd | tbd | ~12 GiB | Storage v2 |
+| Reth | 2.0.0 | April 2026 | tbd | ~761 GiB | ~387 GiB | ~397 GiB | ~248 GiB | ~14 GiB | with minimal receipts |
 | Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
 | Nimbus | 0.1.0-alpha | May 2025 | tbd | 755 GiB | n/a | n/a | n/a | | With Era1 import |
-| Ethrex | 10.0.0-rc.1 | March 2026 | n/a | ~300 GiB | n/a | n/a | n/a | ~10 GiB | |
+| Ethrex | 10.0.0-rc.1 | March 2026 | n/a | ~300 GiB | n/a | n/a | n/a | ~16 GiB | |
 
 Notes on disk usage
 - Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
@@ -64,11 +64,12 @@ Cache size default in all tests.
 
 | Client | Version | Date | Node Type | Test System | Time Taken |  Notes |
 |--------|---------|------|-----------|-------------|------------|--------|
-| Geth   | 1.15.10  | April 2025 | Full | OVH Baremetal NVMe | ~ 5 hours | |
+| Geth   | 1.17.2  | April 2026 | post-Prague | Netcup RS G11 | ~ 3 hours | |
 | Nethermind | 1.36.0| February 2026 | post-Cancun | Netcup RS G11 | ~ 2 hours | Ready to attest after ~ 1 hour |
 | Besu | v26.1.0 | February 2026 | rolling | Netcup RS G11 | ~ 13 hours | |
 | Erigon | 3.3.8 | February 2026 | rolling | Netcup RS G11 | ~ 12 hours | |
-| Reth  | 1.11.3 | February 2026 | Full | Legacy miniPC | ~ 5 days | |
+| Reth  | 2.0.0 | April 2026 | Full | Legacy miniPC | ~ tbd days | full sync, no snapshot |
+| Reth  | 2.0.0 | April 2026 | post-Prague | Netcup RS G11 | ~ 2 hours  | with DB snapshot |
 | Nimbus | 0.1.0-alpha | May 2025 | Full | OVH Baremetal NVME | ~ 5 1/2 days | With Era1 import |
 | Ethrex | 10.0.0-rc.1 | March 2026 | post-merge | Netcup RS G11 | ~ 2 hours | |
 
@@ -78,9 +79,7 @@ Latency is what matters most to Ethereum clients. Measure it with `sudo ioping -
 synthetic load will also get you a ballpark figure. You'd want to be under 300 us max (microseconds, not milliseconds) for an Ethereum execution client. High latency negatively impacts
 attestation performance, and is particularly noticeable during sync committee duties.
 
-IOPS is random read-write IOPS [measured by fio with "typical" DB parameters](https://arstech.net/how-to-measure-disk-performance-iops-with-fio-in-linux/), 150G file, without other processes running.
-
-Specifically `fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --filename=test --bs=4k --iodepth=64 --size=150G --readwrite=randrw --rwmixread=75; rm test`. If the test shows it'd take hours to complete, feel free to cut it short once the IOPS display for the test looks steady.
+Synthetic load can be generated with `fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --filename=test --bs=4k --iodepth=64 --size=150G --readwrite=randrw --rwmixread=75; rm test`. If the test shows it'd take hours to complete, feel free to cut it short once the IOPS display for the test looks steady.
 
 150G was chosen to "break through" any caching strategems the SSD uses for bursty writes. Execution clients write steadily, and the performance of an SSD under heavy write is more important than its performance with bursty writes.
 
