@@ -16,6 +16,25 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v26.4.0 2026-04-12
+
+*This is a recommended release for Reth users*
+
+Changes
+- Support Reth snapshot download during sync. Requires Reth `2.0.0` or later, and reduces sync time to 2-4 hours.
+  Use the `RETH_SNAPSHOT` variable in `.env` to enable this feature.  
+  Caveat that this does not work well with RocketPool, SSV or NodeSet. There will be an Eth Docker release to improve upon this,
+  when Reth `2.1.0` has been released.
+- Support Geth `pre-prague-expiry` sync. Requires Geth `v1.17.2` or later
+- Support `MAX_BLOBS` with Reth
+- Offer Web3signer during a fresh `./ethd config`
+- `./ethd install` will use deb822 format for the Docker-CE repository file
+
+Bug fixes
+- Grafana dashboard provisioning handles download failures gracefully, and only replaces a dashboard when it changed upstream
+- Grandine-in-Nethermind plugin waits for Web3signer to be up before starting
+
+
 ## v26.3.2 2026-03-23
 
 *This is a bugfix release*
@@ -56,6 +75,7 @@ Changes
 Bug fixes
 - Fixed Reth `full` and `pre-merge-expiry` node types. Not all pruning parameters were being applied.
 - Handle a race condition on slow machines more gracefully: The CL waits up to 25 seconds for the EL to create the JWT secret file
+
 
 ## v26.3.0 2026-03-02
 
