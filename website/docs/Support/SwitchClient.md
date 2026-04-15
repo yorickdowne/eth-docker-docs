@@ -211,7 +211,7 @@ Clone Eth Docker, for example into `~/eth-docker`: `cd ~ && git clone https://gi
 
 Install prerequisites: `./ethd install`
 
-Configure the client stack. "Rapid sync" can let the consensus layer client sync in minutes. `./ethd config`, followed by `./ethd up`.
+Configure the client stack. "Checkpoint Sync" means the consensus layer client syncs in minutes. `./ethd config`, followed by `./ethd up`.
 
 **Do not** import validator keys yet. Your validators are still running on your old client, and moving them over needs to be done with care to avoid running them in two places and getting yourself slashed.
 
@@ -225,25 +225,25 @@ In the location for the new client stack, e.g. `~/eth-docker`, stop the stack: `
 
 `docker volume ls` to see the volume name of the new execution client. For Geth, you might see `eth-docker_geth-eth1-data`.
 
-Remove the partially synced contents of the new database location: `sudo rm -rf /var/lib/docker/volumes/NEWVOLUME/_data`, e,g. for Geth `sudo rm -rf /var/lib/docker/volumes/eth-docker_geth-eth1-data/_data`
+Remove the partially synced contents of the new database location: `sudo rm -rf /var/lib/docker/volumes/<el-volume>/_data/*`, e,g. for Geth `sudo rm -rf /var/lib/docker/volumes/eth-docker_geth-eth1-data/_data/*`
 
 Move the directory of the systemd EL database to the new database location. This depends on what execution layer client you are using. This example assumes Geth.
 
 #### Somer Esat's guide
  
-Disable the Geth service and move its database: `sudo systemctl disable geth` and `sudo mv /var/lib/goethereum -t /var/lib/docker/volumes/eth-docker_geth-eth1-data`.
+Disable the Geth service and move its database: `sudo systemctl disable geth` and `sudo mv /var/lib/goethereum/* -t /var/lib/docker/volumes/eth-docker_geth-el-data/_data/`.
 
 #### Metanull's guide
 
-Disable the Geth service and move its database: `sudo systemctl disable geth` and `sudo mv /home/geth/* -t /var/lib/docker/volumes/eth-docker_geth-eth1-data`.
+Disable the Geth service and move its database: `sudo systemctl disable geth` and `sudo mv /home/geth/* -t /var/lib/docker/volumes/eth-docker_geth-el-data/_data/`.
 
 #### Coincashew's guide
 
-Disable the Geth service and move its database: `sudo systemctl disable eth1` and `sudo mv ~/.ethereum -t /var/lib/docker/volumes/eth-docker_geth-eth1-data`.
+Disable the Geth service and move its database: `sudo systemctl disable eth1` and `sudo mv ~/.ethereum/* -t /var/lib/docker/volumes/eth-docker_geth-el-data/_data/`.
 
 #### Change permissions and start the stack
 
-Change permissions so Eth Docker can access the Geth database: `sudo chown -R 10001:10001 /var/lib/docker/volumes/eth-docker_geth-eth1-data`
+Change permissions so Eth Docker can access the Geth database: `sudo chown -R 10001:10001 /var/lib/docker/volumes/eth-docker_geth-eth1-data/_data/*`
 
 Start the new stack again: `./ethd up`, then observe that your execution client is running well and is synced to head: `./ethd logs -f execution`.
 
