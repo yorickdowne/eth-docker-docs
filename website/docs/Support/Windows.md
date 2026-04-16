@@ -67,9 +67,10 @@ without even man-db out of the box.
 ```
 [boot]
 systemd=true
+command=mount --make-rshared /
 ```
 Close your WSL windows and in Powershell, run `wsl --shutdown`. When it launches again, systemd should be running.
-- Install chrony with `sudo apt install -y chrony`.
+- If on Ubuntu 24.04 or earlier, install `chrony` with `sudo apt install -y chrony`. From 26.04, `chrony` is the default.
 
 Time sync
 - Fix Windows time sync if your machine is not domain-joined
@@ -97,8 +98,8 @@ I was unable to configure this from the GUI and ended up using RegEdit. Navigate
 
 QoL
 - Optional: Improve your WSL experience with [Windows Terminal and oh-my-zsh](https://gist.github.com/zachrank/fc71ed301e9823264ddac4fb77975735)
-- Optional: Use sparse VHD for WSL, `wsl.exe --list` and then `wsl.exe --manage DISTRO-NAME --set-sparse true`. I
-have not tested the performance impact of this.
+- Optional: Use sparse VHD for WSL, `wsl.exe --list` and then `wsl.exe --manage DISTRO-NAME --set-sparse true`. The performance impact is severe,
+only do this on a testnet.
 - Optional: Configure your Windows drive to be [encrypted with Bitlocker](https://www.windowscentral.com/how-use-bitlocker-encryption-windows-10).
 Be very careful to print out the recovery key and keep it safe. Always suspend Bitlocker before doing a UEFI/BIOS
 upgrade.
