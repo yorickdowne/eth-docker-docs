@@ -13,7 +13,7 @@ rather than a hosted cloud offering.
 
 `grafana-cloud.yml` runs a local Alloy but no local Grafana, and enables adding custom Alloy config items.
 
-If you want to add additional scrape targets, place these into `./alloy/config.d`.
+If you want to add additional scrape targets, place these into `./alloy`.
 
 ## Local Grafana dashboards
 
