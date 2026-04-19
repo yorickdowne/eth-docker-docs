@@ -27,7 +27,7 @@ please adjust your setup to place yml files into `CORE_FILES` for files that may
 `CUSTOM_FILES` for files that should not be. Note that `CORE_FILES` cannot be empty.
 - `./prometheus/custom-prom.yml` and `./promtail/custom-lokiurl.yml` are gone. If you were remote-writing to your own Metrics store such as Mimir and your
 own logs store such as Loki, please re-create those entries in `./alloy/prometheus-write.alloy` and `./alloy/loki-write.alloy`.
-- Custom scrape targets in `prometheus/conf.d` will no longer be used. Please recreate them in `./alloy/config.d`. You can convert the Prometheus
+- Custom scrape targets in `prometheus/conf.d` will no longer be used. Please recreate them in `./alloy`. You can convert the Prometheus
 custom scrape targets to Alloy's River format with
 `docker run --rm -v ./prometheus/conf.d:/config grafana/alloy:latest convert -f prometheus -o /config/<my-target.alloy> /config/<my-target.yml>`, then
 `sudo chown $(id -u):$(id -g) ./prometheus/conf.d/<my-target.alloy>` the resulting `.alloy` file and bring it to the Alloy folder with
