@@ -31,7 +31,7 @@ own logs store such as Loki, please re-create those entries in `./alloy/promethe
 custom scrape targets to Alloy's River format with
 `docker run --rm -v ./prometheus/conf.d:/config grafana/alloy:latest convert -f prometheus -o /config/<my-target.alloy> /config/<my-target.yml>`, then
 `sudo chown $(id -u):$(id -g) ./prometheus/conf.d/<my-target.alloy>` the resulting `.alloy` file and bring it to the Alloy folder with
-`cp ./prometheus/conf.d/<my-target.alloy> ./alloy/config.d/`. You can add `alloy-shared.yml` into `CUSTOM_FILES` with `nano .env` and then see that
+`cp ./prometheus/conf.d/<my-target.alloy> ./alloy/`. You can add `alloy-shared.yml` into `CUSTOM_FILES` with `nano .env` and then see that
 your scrape target works in the Alloy UI at `http://<my-node-ip>:12345`.
 
 Changes
