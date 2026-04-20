@@ -8,16 +8,16 @@ sidebar_label: Eth Docker with multiple users
 
 You may want to run Eth Docker on one user, and then have other users be able to administer it. For this
 example, the user that installs Eth Docker will be `node`, the two admin users will be `alice` and `bob`,
-and all three belong to the `node-admin` group.
+and all three belong to the `node-admins` group.
 
 `alice` can `sudo`
 
-As `alice`, create the `node` user and `node-admin` group
+As `alice`, create the `node` user and `node-admins` group
 - `sudo adduser node`
-- `sudo addgroup node-admin`
-- `sudo adduser node node-admin`
-- `sudo adduser alice node-admin`
-- `sudo adduser bob node-admin`
+- `sudo addgroup node-admins`
+- `sudo adduser node node-admins`
+- `sudo adduser alice node-admins`
+- `sudo adduser bob node-admins`
 
 Keep `node` from logging in via ssh
 - `sudo nano /etc/ssh/ssh_config.d/99-disable-node-login.conf`
