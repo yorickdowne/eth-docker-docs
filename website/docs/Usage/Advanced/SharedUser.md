@@ -33,6 +33,7 @@ Become `node` and download Eth Docker, and set permissions
 - `chown node:node-admins .`
 - `chown -R node:node-admins ./eth-docker`
 - `find ./eth-docker -type d -exec chmod g+s {} +`
+- `git config --global --add safe.directory ${HOME}/eth-docker`
 - `exit`
 
 As `alice` again, install prerequisites and configure Eth Docker
