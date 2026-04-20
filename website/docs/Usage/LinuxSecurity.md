@@ -63,10 +63,12 @@ Advanced, then make your user the owner with Full Access, while removing access 
 and Administrators. Check "Replace all child object permissions", and click OK. That should solve the issues the
 OpenSSH client had.
 
-Lastly, once key authentication has been tested, turn off password authentication. On your Linux server:<br />
-`sudo nano /etc/ssh/sshd_config`
-
-Find the line that reads `#PasswordAuthentication yes` and remove the comment character `#` and change it to `PasswordAuthentication no`.
+Lastly, once key authentication has been tested, turn off password authentication. On your Linux server:  
+`sudo nano /etc/ssh/ssh_config.d/99-disable-password-auth.conf`
+```
+PasswordAuthentication no
+```
+Save and close
 
 And restart the ssh service, for Ubuntu you'd run `sudo systemctl restart ssh`.
 
@@ -84,20 +86,13 @@ For msmtp, I followed the instructions as-is.
 
 ## Time synchronization on Linux
 
-The blockchain requires precise time-keeping. On Ubuntu, systemd-timesyncd is the default to synchronize time,
+The blockchain requires precise time-keeping. On Ubuntu 24.04 and earlier, systemd-timesyncd is the default to synchronize time,
 and [chrony](https://en.wikipedia.org/wiki/Network_Time_Protocol) is an alternative.
 
-systemd-timesyncd uses a single ntp server as source, and chrony uses several, typically a pool. The default shipping with Ubuntu can get
-out of sync by as much as 600ms before it corrects. My recommendation is to use chrony for better accuracy.
-
-For Ubuntu, install the chrony package. This will automatically remove systemd-timesyncd. Chrony will start automatically.<br />
+For Ubuntu 24.04 and earlier, install the chrony package. This will automatically remove systemd-timesyncd. Chrony will start automatically.  
 `sudo apt update && sudo apt -y install chrony`
 
 Check that chrony is synchronized: Run `chronyc tracking`.
-
-> If you wish to stay with systemd-timesyncd instead, check that `NTP service: active` via 
-> `timedatectl`, and switch it on with `sudo timedatectl set-ntp yes` if it isn't. You can check
-> time sync with `timedatectl timesync-status --all`.
 
 ## Firewalling
 
