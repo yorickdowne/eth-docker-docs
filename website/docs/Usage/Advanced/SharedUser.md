@@ -10,7 +10,7 @@ You may want to run Eth Docker on one user, and then have other users be able to
 example, the user that installs Eth Docker will be `node`, the two admin users will be `alice` and `bob`,
 and all three belong to the `node-admins` group.
 
-`alice` can `sudo`
+`alice` and `bob` can `sudo`, so they can "become" `node` when running `ethd`
 
 As `alice`, create the `node` user and `node-admins` group
 - `sudo adduser node`
@@ -44,7 +44,7 @@ As `alice` again, install prerequisites and configure Eth Docker
 - OR if you opted out of calling `ethd` from anywhere
 - `/home/node/eth-docker/ethd config`
 
-Make `bob` part of the `docker` group, unless they have `sudo` rights and you prefer that for them
+Optinally, make `bob` part of the `docker` group
 - `sudo adduser bob docker`
 
 If you opted in to being able to call `ethd` from anywhere, tell `bob` to add this to their `~/.profile`
@@ -55,7 +55,3 @@ cat /home/node/eth-docker/.motd
 
 The `node` user now owns Eth Docker, but cannot run `docker` commands itself. If you want someone to be able
 to become `node` and run `docker` commands, add `node` to the `docker` group as well: `sudo adduser node docker`
-
-If `bob` does not have `sudo` rights themselves, they'll be able to administer Eth Docker, but won't be able
-to run commands that make system level changes, such as `ethd install`. `alice` has full capabilities, as they
-can `sudo`.
