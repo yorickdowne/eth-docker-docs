@@ -27,7 +27,7 @@ For reference, here are disk, RAM and CPU requirements, as well as mainnet initi
 
 SSD and RAM use is after initial sync, when keeping up with head.
 
-Please pay attention to the Version and Date. These are snapshots in time of client behavior. Initial state size increases over time, and execution clients are always working on improving their storage engines.
+Please pay attention to the Version and Date. These are snapshots in time of client behavior. Initial database size increases over time, and execution clients are always working on improving their storage engines.
 
 DB Size is shown with values for different types of nodes: Full, and different levels of expiry: Post-Merge history only; Post-Cancun history only; rolling expiry; aggressive expiry.
 "tbd" means I haven't gathered the data. "n/a" means the client does not support this expiry mode, yet.
@@ -44,21 +44,13 @@ DB Size is shown with values for different types of nodes: Full, and different l
 
 Notes on disk usage
 - Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
-- Nethermind - DB size can be reduced when it grew too large, by [online prune](NodeTypes.md). Keep an eye
-on [Paprika](https://github.com/NethermindEth/nethermind/pull/7157) and
-[Path](https://github.com/NethermindEth/nethermind/pull/6499) work
+- Nethermind - DB size can be reduced when it grew too large, by [online prune](NodeTypes.md).
 
 ## Initial sync times
 
 Please pay attention to the Version and Date. Newer versions might sync faster, or slower.
 
 These are initial syncs of a node with a stated amount of history expiry. For clients that support it, snap sync was used; otherwise, full sync.
-
-NB: All execution clients need to [download state](https://github.com/ethereum/go-ethereum/issues/20938#issuecomment-616402016) after getting blocks. If state isn't "in" yet, your sync is not done. This is a heavily disk latency dependent operation, which is why HDD cannot be used for a node.
-
-For Geth, you will see "State heal in progress" after initial sync, which will persist for a few hours if latency is high-ish.
-
-This should complete in under 4 hours. If it does not, or even goes on for a week+, you do not have sufficient latency for Geth to "catch up" with state.
 
 Cache size default in all tests.
 
