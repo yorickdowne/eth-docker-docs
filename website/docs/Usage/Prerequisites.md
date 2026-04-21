@@ -30,24 +30,29 @@ Run `./ethd install` and follow prompts
 
 ### Manual installation
 
-Install docker-ce:
+Install docker-ce.
 
 ```
 sudo apt-get update
-sudo apt-get -y install ca-certificates curl gnupg lsb-release whiptail
-sudo mkdir -p /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
 sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-buildx-plugin
 ```
 
 You know it was successful when you saw messages scrolling past that install Docker and Docker Compose.
-
-If you like, you can also add a docker-compose alias, replacing `MYUSERNAME` with your actual user name:
-`echo 'alias docker-compose="docker compose"' >>/home/MYUSERNAME/.profile`
 
 ## Debian Prerequisites
 
@@ -65,27 +70,32 @@ Install docker-ce:
 
 ```
 sudo apt-get update
-sudo apt-get -y install ca-certificates curl gnupg lsb-release whiptail
-sudo mkdir -p /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get -y install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
 sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-buildx-plugin
 ```
 
 You know it was successful when you saw messages scrolling past that install docker and docker compose.
-
-If you like, you can also add a docker-compose alias, replacing `MYUSERNAME` with your actual user name:
-`echo 'alias docker-compose="docker compose"' >>/home/MYUSERNAME/.profile`
 
 ## Generic Linux
 
 Other distributions are expected to work as long as they support git, Docker, and Docker Compose.
 
 On Linux, Docker Compose runs as root by default. The individual containers do not, they run as local users inside the
-containers. "Rootless mode" is expected to work for Docker with this project, as it does not use AppArmor.
+containers. "Rootless mode Docker" is limited, but should work to an extent.
 
 ## Change Docker storage location
 
@@ -110,7 +120,7 @@ Add this as the contents:
 }
 ```
 
-where `<your external mount point>` is the directory that your other drive is mounted to.
+where `<your external mount point>` is the directory that your other drive is mounted to, e.g. `/mnt/sata`
 
 Next, make the folder:
 
@@ -135,33 +145,44 @@ After that, Docker will store its data on your desired disk.
 
 ## Switching from docker.io to docker-ce
 
-If you are currently running Canonical's docker.io and you'd like to switch to docker-ce, the "Community Edition"
+If you are currently running `docker.io` and you'd like to switch to `docker-ce`, the "Community Edition"
 released by Docker, Inc., this is how.
 
 You do not need to stop running containers manually, and they will be back up and running after. All volumes and other
 data kept in Docker will stay intact.
 
-If you came here because of a nag message, you can switch out docker.io for docker-ce, or you can narrowly just upgrade
+If you came here because of a nag message, you can switch out `docker.io` for `docker-ce`, or you can narrowly just upgrade
 Compose to V2, and remove Compose V1. In that case, stop before "Prepare docker-ce repo".
 
-If you want to keep docker.io, and add the Compose V2 plugin, you can do so by:
-
+You can keep `docker.io` on Ubuntu, and add the Compose V2 plugin. This does not work on Debian this way.  
 `sudo apt-mark manual docker.io && sudo apt-get remove --autoremove -y docker-compose && sudo apt-get install -y docker-compose-v2`
 
-**Only** if you wish to replace docker.io with docker-ce, continue below.
+**Only** if you wish to replace `docker.io` with `docker-ce`, continue below.
 
-Prepare docker-ce repo:
+Prepare docker-ce repo.
+
+If you are on Ubuntu:  
+`export repo=ubuntu`
+
+If you are on Debian:  
+`export repo=debian`
 
 ```
 sudo apt-get update
-sudo apt-get install -y ca-certificates curl gnupg lsb-release
+sudo apt-get install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/${repo}/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-https://download.docker.com/linux/ubuntu  $(lsb_release -cs) stable" \
-| sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
- 
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/${repo}
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-VERSION_CODENAME}")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
 sudo apt-get update
 ```
 
