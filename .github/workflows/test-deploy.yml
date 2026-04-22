@@ -9,6 +9,10 @@ defaults:
   run:
     working-directory: ./website
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test-deploy:
     name: Test deployment
