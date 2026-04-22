@@ -9,6 +9,10 @@ defaults:
   run:
     working-directory: ./website
 
+concurrency:
+  group: ci-${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build Docusaurus
