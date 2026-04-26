@@ -95,7 +95,17 @@ it would display an error message stating "ERROR: Could not load logging rules".
 
 `sudo ufw reload`
 
-### Example: Grafana on port 3000
+### Mandatory rules if you use Grafana
+
+Alloy needs to scrape node exporter on the host, and this breaks when ufw is "in front of Docker". Add these rules to ufw to fix that:
+```
+sudo ufw allow proto tcp from 172.16.0.0/12 to any port 9199 comment "node-exporter from Docker"
+sudo ufw allow proto tcp from 192.168.0.0/16 to any port 9199 comment "node-exporter from Docker"
+```
+
+Adjust the port if you changed `NODE_EXPORTER_PORT` in your `.env` configuration file.
+
+## Example: Grafana on port 3000
 
 Reference [common ufw rules and commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)
 to help in creating ufw rules.
@@ -115,7 +125,7 @@ Check again on "yougetsignal" or the like that port 3000 is now closed.
 Connect to your node with ssh tunneling, e.g. `ssh -L3000:node-IP:3000 user@node-IP` and browse to `http://127.0.0.1:3000` on the client
 you started the SSH session *from*. You expect to be able to reach the Grafana dashboard.
 
-### Example: Prysm Web UI on port 7500
+## Example: Prysm Web UI on port 7500
 
 Reference [common ufw rules and commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)
 to help in creating ufw rules.
@@ -135,7 +145,7 @@ Check again on [you get signal](https://www.yougetsignal.com/tools/open-ports/) 
 Connect to your node with ssh tunneling, e.g. `ssh -L7500:node-IP:7500 user@node-IP` and browse to `http://127.0.0.1:7500` on the client
 you started the SSH session *from*. You expect to be able to reach the Prysm Web UI.
 
-### Example: Shared or standalone execution client on port 8545
+## Example: Shared or standalone execution client on port 8545
 
 It can be useful to have a single execution client service multiple consensus clients, for example when testing, or running a solo staking docker-compose stack as well as a pool docker-compose stack.
 
@@ -154,7 +164,7 @@ to the actual defaults by adding more specific rules. For the Docker default sub
 > With ISP traffic caps, it could be quite attractive to run the execution client in a small VPS, and reference it from a consensus client somewhere
 > else. This requires a [secure proxy](../Usage/ReverseProxy.md).
 
-### Allowing IPv6 traffic
+## Allowing IPv6 traffic
 
 Ports mapped to host by Docker are reachable on IPv4 by default without the need for ufw rules. This is not true for IPv6 in
 my testing. You can use a [port scanner](https://www.ipvoid.com/port-scan/) to test your P2P TCP ports - defaults `30303` and `9000` -
@@ -165,7 +175,7 @@ sudo ufw allow from any to any port 30303
 sudo ufw allow from any to any port 9000
 ```
 
-### Allowing Docker traffic to the host IP
+## Allowing Docker traffic to the host IP
 
 Ports mapped to host by Docker are reachable on IPv4 by default without the need for ufw rules. There is one exeption:
 If a Docker container on the host tries to reach a port mapped to host by the host IP, this will fail by default.
