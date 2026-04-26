@@ -95,7 +95,7 @@ it would display an error message stating "ERROR: Could not load logging rules".
 
 `sudo ufw reload`
 
-### Mandatory rules if you use Grafana
+### 5) Mandatory rules if you use Grafana
 
 Alloy needs to scrape node exporter on the host, and this breaks when ufw is "in front of Docker". Add these rules to ufw to fix that:
 ```
