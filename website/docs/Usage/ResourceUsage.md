@@ -36,15 +36,17 @@ DB Size is shown with values for different types of nodes: Full, and different l
 |--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
 | Geth   | 1.17.2 | April 2026 | ~1.2 TiB | ~830 GiB | ~580 GiB | n/a | n/a | ~ 8 GiB | |
 | Nethermind | 1.36.2 | April 2026 | ~1.1 TiB | ~740 GiB | ~468 GiB | ~240 GiB | n/a | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
+| Nethermind | 1.37.1 | April 2026 | tbd | ~1 TiB  | ~500 GiB | ~255 GiB | n/a | tbd GiB | With FlatInTrie FlatDB |
+| Nethermind | 1.37.1 | April 2026 | tbd | ~1.1 TiB  | ~550 GiB | ~310 GiB | n/a | tbd GiB | With Flat FlatDB |
 | Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~10 GiB | |
 | Reth | 2.0.0 | April 2026 | tbd | ~1 TiB  | ~475 GiB | ~490 GiB | ~248 GiB | ~14 GiB | with receipts, exception "Aggressive" |
 | Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
-| Nimbus | 0.1.0-alpha | May 2025 | tbd | 755 GiB | n/a | n/a | n/a | | With Era1 import |
+| Nimbus | 0.1.0-alpha | May 2025 | tbd | ~755 GiB | n/a | n/a | n/a | | With Era1 import |
 | Ethrex | 10.0.0-rc.1 | March 2026 | n/a | ~300 GiB | n/a | n/a | n/a | ~16 GiB | |
 
 Notes on disk usage
-- Reth, Besu, Geth, Erigon, Ethrex and Nimbus continously prune
-- Nethermind - DB size can be reduced when it grew too large, by [online prune](NodeTypes.md).
+- All clients other than "Nethermind with HalfPath DB" continously prune state
+- Nethermind - HalfPath DB state size can be reduced when it grew too large, by [online prune](NodeTypes.md).
 
 ## Initial sync times
 
