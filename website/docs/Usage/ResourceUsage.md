@@ -6,18 +6,16 @@ sidebar_label: Client Resource Usage
 
 # Consensus Clients
 
+Consensus client database size varies widely with amount of blobs kept. The below is a baseline with the minimal amount of blobs. A "supernode" can easily
+add 500 GiB to that number in blob space alone. An archive blob node would take over 4 TiB of blob data.
+
 | Client | Version | Date | DB Size  |  RAM | Notes |
 |--------|---------|----  |----------|------|-------|
-| Teku   | 24.8.0  | Sep 2024 | ~84 GiB | ~10 GiB |
-| Lighthouse | 4.5.0  | Jan 2024 | ~130 GiB | ~5 GiB |
-| Nimbus | 24.1.1 | Jan 2024 | ~170 GiB | ~2 to 3 GiB |
-| Prysm | 4.1.1 | Jan 2024 | ~130 GiB | ~5 GiB |
-| Lodestar | 1.13.0 | Jan 2024 | ~130 GiB | ~8 GiB |
-
-Notes on disk usage
-- Teku, Nimbus, Lodestar, Prysm and Grandine continuously prune
-- Lighthouse can be resynced in minutes to bring space usage back down, with `./ethd resync-consensus`
-- Lighthouse is working on tree states to continuously prune
+| Teku   | 26.4.0  | Apr 2026 | ~80 GiB | ~10 GiB |
+| Lighthouse | 8.1.3  | Apr 2026 | ~20 GiB | ~14 GiB |
+| Nimbus | 26.3.1 | Apr 2026 | ~75 GiB | ~5 GiB |
+| Prysm | 7.1.3 | Apr 2026 | ~20 GiB | ~9 GiB |
+| Lodestar | 1.42.0 | Apr 2026 | ~20 GiB | ~12 GiB |
 
 # Execution clients
 
@@ -36,12 +34,12 @@ DB Size is shown with values for different types of nodes: Full, and different l
 |--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
 | Geth   | 1.17.2 | April 2026 | ~1.2 TiB | ~830 GiB | ~580 GiB | n/a | n/a | ~ 8 GiB | |
 | Nethermind | 1.36.2 | April 2026 | ~1.1 TiB | ~740 GiB | ~468 GiB | ~240 GiB | n/a | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
-| Nethermind | 1.37.1 | April 2026 | tbd | ~1 TiB  | ~500 GiB | ~255 GiB | n/a | tbd GiB | With FlatInTrie FlatDB |
-| Nethermind | 1.37.1 | April 2026 | tbd | ~1.1 TiB  | ~550 GiB | ~310 GiB | n/a | tbd GiB | With Flat FlatDB |
+| Nethermind | 1.37.1 | April 2026 | ~1.4 TiB | ~1 TiB  | ~500 GiB | ~255 GiB | n/a | ~10 GiB | With FlatInTrie FlatDB |
+| Nethermind | 1.37.1 | April 2026 | ~1.5 TiB | ~1.1 TiB  | ~550 GiB | ~310 GiB | n/a | ~15 GiB | With Flat FlatDB |
 | Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~10 GiB | |
 | Reth | 2.1.0 | April 2026 | ~1.8 TiB | ~1 TiB  | ~475 GiB | ~490 GiB | ~248 GiB | ~14 GiB | with receipts, exception "Aggressive" |
-| Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | See comment | Erigon will have the OS use all available RAM as a DB cache during post-sync operation, but this RAM is free to be used by other programs as needed. During sync, it may run out of memory on machines with 32 GiB or less |
-| Nimbus | 0.1.0-alpha | May 2025 | tbd | ~755 GiB | n/a | n/a | n/a | | With Era1 import |
+| Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
+| Nimbus | 0.1.0-alpha | May 2025 | tbd | ~755 GiB | n/a | n/a | n/a | tbd | With Era1 import |
 | Ethrex | 10.0.0-rc.1 | March 2026 | n/a | ~300 GiB | n/a | n/a | n/a | ~16 GiB | |
 
 Notes on disk usage
