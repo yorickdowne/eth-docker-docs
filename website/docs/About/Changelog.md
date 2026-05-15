@@ -17,6 +17,60 @@ instead.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
 
+## v26.5.0 2026-05-12
+
+*This is a recommended release*
+
+**Breaking changes**
+- Ethrex and max blobs requires Ethrex `10.0.0` or later
+- Nethermind and max blobs requires Nethermind `1.37.0` or later
+- Besu and max blobs requires Besu `26.4.0` or later
+- Erigon and max blobs requires Erigon `3.4.0` or later
+- Require Reth `2.2.0` or later
+- Grandine Nethermind plugin requires `1.37.0` or later
+- Nethermind and FlatDB requires `1.37.1` or later
+- Vero source build requires `1.4.0` or later
+
+**Changes**
+
+- Better Reth download handling, requires Reth `2.1.0` or later
+- Support Reth DB migration to v2, requires Reth `2.1.0` or later
+- Support Nethermind FlatDB
+- Support a multi-user setup with `eve` owning the Eth Docker directory, and `alice` and `bob` having the ability to administer
+Eth Docker, when all three are in a common group such as `node-admins` and that group has write rights to the Eth Docker directory
+- `./ethd update --no-screen` if you'd like to run `./ethd update` and not have it spawn a `screen` session
+- Support Ethrex max blobs, requires Ethrex `10.0.0` or later
+- Support Nethermind max blobs, requires `1.37.0` or later
+- Support Besu max blobs, requires `26.4.0` or later
+- Support Erigon max blobs, requires `3.4.0` or later
+- Support Web3signer distroless image, including read-only Docker parameter
+- Provisioned Grafana alerts no longer fire on "No Data"
+- Support changed Grandine Nethermind plugin parameters
+- Progress counter for key import and deletion
+- Add command to reduce security of web3signer keys. Use on testnet, only!
+- Bump Besu and Teku build to Java 25
+- Nag user if their Docker-CE is old, to guard against accidentally disabled 3rd party repo
+- Reth uses the same port for discv4 and discv5
+- Remove Manifold finance relay
+- Enable UI access to Obol Alloy
+- Support Vero source build on `1.4.0` or later. Thanks @eth2353!
+- `ETH_DOCKER_TAG=stable` will always pull the latest release version during `./ethd update`, instead of the current `-dev` version
+- Cleaner node exporter configuration
+- Grandine source builds can optionally pull in a host-built binary instead of building inside the container
+
+**Bug fixes**
+- Obol Alloy service is now distinct from generic Alloy service
+- `./ethd update` handles migration from Obol promtail to Obol Alloy
+- Obol Alloy correctly delivers Charon metrics
+- `./ethd keys import --non-interactive` now actually is
+- `./ethd install` adjusts `.motd` to the actual directory Eth Docker is in
+- `./ethd prune-history` works correctly with Nethermind
+- Prysm archive node backfills to slot 0
+- Do not mount `$DOCKER_ROOT/containers` into Alloy
+- `./ethd install` correctly handles chrony leap seconds on Ubuntu 26.04
+- Remove `./ethd update` lock file on failure
+
+
 ## v26.4.1 2026-04-19
 
 *This is a recommended release for Vero users*

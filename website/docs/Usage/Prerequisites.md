@@ -211,14 +211,30 @@ sudo docker ps
 
 ## rootless Docker
 
-Eth Docker is limited with [rootless Docker](https://docs.docker.com/engine/security/rootless/). Containers
-won't start until the user is logged in, and I am unsure how to handle iptables so host-mapped P2P ports work.
+Eth Docker works with [rootless Docker](https://docs.docker.com/engine/security/rootless/) since version 29.5.0.
+IPv4/IPv6 dual-stack works in rootless mode in testing.
+
+To make sure that P2P traffic on the CL and EL works, including incoming peers, and the services start after reboot
+without the user logging in, install it like this:
+```
+sudo systemctl disable --now docker docker.socket
+sudo rm -f /var/run/docker.sock
+sudo modprobe br_netfilter
+echo "br_netfilter" | sudo tee /etc/modules-load.d/br_netfilter.conf
+echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/10-ip-forward.conf
+sudo sysctl --system
+mkdir -p ~/.config/docker
+echo '{"userland-proxy":false}' >~/.config/docker/daemon.json
+dockerd-rootless-setuptool.sh install
+sudo loginctl linger $(id -un)
+```
 
 If using Grafana, use `grafana-rootless.yml` instead of `grafana.yml`. This omits node-exporter and cadvisor.
 
-
 If using traefik, either change its ports in `.env` to be above `1024`, or
 [expose privileged ports](https://docs.docker.com/engine/security/rootless/#exposing-privileged-ports).
+
+`ufw`, if installed, will control all ports when in rootless mode. Be sure to allow the P2P ports in, UDP and TCP both.
 
 ## macOS Prerequisites
 
