@@ -217,6 +217,7 @@ IPv4/IPv6 dual-stack works in rootless mode in testing.
 To make sure that P2P traffic on the CL and EL works, including incoming peers, and the services start after reboot
 without the user logging in, install it like this:
 ```
+sudo apt-get update && sudo apt-get install -y uidmap
 sudo systemctl disable --now docker docker.socket
 sudo rm -f /var/run/docker.sock
 sudo modprobe br_netfilter
