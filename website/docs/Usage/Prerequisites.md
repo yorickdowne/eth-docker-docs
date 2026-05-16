@@ -227,7 +227,7 @@ sudo sysctl --system
 mkdir -p ~/.config/docker
 echo '{"userland-proxy":false}' >~/.config/docker/daemon.json
 dockerd-rootless-setuptool.sh install
-sudo loginctl linger $(id -un)
+sudo loginctl enable-linger $(id -un)
 ```
 
 If using Grafana, use `grafana-rootless.yml` instead of `grafana.yml`. This omits node-exporter and cadvisor.
