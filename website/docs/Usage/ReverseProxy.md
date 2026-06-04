@@ -35,12 +35,8 @@ Create a (free) CloudFlare account and set up your domain, which will require po
 Cloudflare's servers. How this is done depends on your domain registrar.
 
 You will need a "scoped API token" from CloudFlare's [API page](https://dash.cloudflare.com/profile/api-tokens). Create
-a token with `Zone.DNS:Edit`, `Zone.Zone:Read` and `Zone.Zone Settings:Read` permissions, for all zones. Make a note of
+a token with `Zone.DNS:Edit` permissions, for the zone that has the domain you are using with Eth Docker. Make a note of
 the token secret, it will only be shown to you once.
-
-If you want to be [more specific](https://go-acme.github.io/lego/dns/cloudflare/), you can create two scoped API
-tokens: One with `Zone.DNS:Edit` for just the domain you wish to manage, and one with `Zone.Zone:Read` and
-`Zone.Zone Settings:Read` for all zones.
 
 With that, in the `.env` file:
 - Set `DOMAIN` to your domain.
@@ -48,20 +44,21 @@ With that, in the `.env` file:
 - Set `CF_ZONE_ID` to the Zone ID of the domain, visible in the Overview page of your domain, on the right-hand side
 - Set `CF_DNS_API_TOKEN` to the API token with `Edit` rights you just created
 under "API".
-- Optionally set `CF_ZONE_API_TOKEN` to the API token with `Read` rights, only if you created split permissions.
-- Set `DDNS_SUBDOMAIN` to the specific A/AAAA record you want to see created. If you want to update the domain
-itself, make this @.
-- Set `DDNS_PROXY` to `false` if you do not want CloudFlare to proxy traffic to the subdomain
+- Set `DDNS_HOST` to the specific A/AAAA record you want to see created
+- Set `CF_PROXY` to `false` if you do not want CloudFlare to proxy traffic to the subdomain
+- Optionally set `CNAME_LIST` to a comma-separated list of CNAMEs that you want to be automatically created. You can
+add `:proxy` or `:noproxy` to each CNAME entry to override the default in `CF_PROXY`
 
 ### CNAMEs and proxy settings
 
-You need CNAMEs or A records for the services you make available. Assuming you have set the subdomain `grafana` with
-the IP address of your host, and keeping the default names in `.env`, set the CNAMEs for only the services you use:
+You need CNAMEs or A records for the services you make available. A and if applicable AAAA records will be automatically
+created for `DDNS_HOST`. Assuming default names in `.env`, set the CNAMEs for only the services you use:
 
-- `grafana` is automatically created, proxied, for the Grafana dashboard
-- `prysm` CNAME to `grafana.example.com`, proxied, for the Prysm Web UI
-- `el` CNAME to `grafana.example.com`, DNS only, for the execution client RPC https:// port
-- `elws` CNAME to `grafana.example.com`, DNS only, for the execution client WS wss:// port
+- `CNAME_LIST=grafana:proxy,prysm:proxy` to have CNAMEs created for Grafana and Prysm
+- For this to work with traefik, `GRAFANA_HOST` and `PRYSM_HOST` have to match
+- For Grafana, no additional `grafana-traefik.yml` is required - the assumption is that if you created a CNAME,
+you mean for it to be reachable. This is not true for other services: See `ls *-traefik.yml` for files that
+enable traefik access to the EL, CL, &c
 
 If you are using CloudFlare to proxy Grafana / Prysm web, you'll also want to set these:
 
@@ -88,19 +85,24 @@ The IAM user will need to have the AWS-managed `AmazonRoute53ReadOnlyAcces`, `Am
 With that, in the `.env` file:
 - Set `DOMAIN` to your domain.
 - Set `ACME_EMAIL` to the email address Let's Encrypt will use to communicate with you.
-- Set `AWS_PROFILE` to the profile you want to use. This is the profile name as shown in `~/.aws/config` and
+- Set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to an IAM user that has full route53 permissions
+- Alternatively, set `AWS_PROFILE` to the profile you want to use. This is the profile name as shown in `~/.aws/config` and
 `~/.aws/credentials`, e.g. `default` or whichever name you gave it, *not* the access key id. The profile
 **must** contain a region.
 - Set `AWS_HOSTED_ZONE_ID` to the Route53 zone you are going to use
+- Set `DDNS_HOST` to the specific A/AAAA record you want to see created
+- Optionally set `CNAME_LIST` to a comma-separated list of CNAMEs that you want to be automatically created
 
-### A records and CNAMEs
+### CNAMEs
 
-Assuming you use the default names in `.env`:
+You need CNAMEs or A records for the services you make available. A and if applicable AAAA records will be automatically
+created for `DDNS_HOST`. Assuming default names in `.env`, set the CNAMEs for only the services you use:
 
-- An A record for your first service such as `grafana.example.com`, or on the domain itself `example.com` to use for
-CNAMEs. The A record will be the IP address of your node
-- Optionally, additional CNAMEs for `grafana`, `prysm`, `el` and `elws`, depending on which services you want to
-reverse-proxy on the node
+- `CNAME_LIST=grafana,prysm` to have CNAMEs created for Grafana and Prysm
+- For this to work with traefik, `GRAFANA_HOST` and `PRYSM_HOST` have to match
+- For Grafana, no additional `grafana-traefik.yml` is required - the assumption is that if you created a CNAME,
+you mean for it to be reachable. This is not true for other services: See `ls *-traefik.yml` for files that
+enable traefik access to the EL, CL, &c
 
 ## Traefik common settings
 
