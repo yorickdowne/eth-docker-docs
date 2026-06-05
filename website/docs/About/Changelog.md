@@ -17,6 +17,27 @@ instead.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
 
+## v26.6.0 2026-06-05
+
+*This is an optional release*
+
+**Changes**
+- Support Nethermind EraE import
+- CNAMEs can be automatically created when using `traefik-cf.yml`, see `CNAME_LIST` in `.env`
+- Bump Tempo to `3.0.0` and migrate configuration
+- Traefik defaults to version `3.7`
+- Better support for rootless Docker
+- SSV API address defaults to `0.0.0.0`; this requires a manual change for existing setups
+- Do not print the Prometheus version, just print Grafana
+- Timestamp `.env.bak` files during `./ethd update`
+
+**Bug fixes**
+- Fix Geth EraE import
+- Tempo retains traces for 14 days now, not 1 hour
+- Fix slashing protection import during `./ethd keys import` - thanks @oksanaphmn !
+- `cb-pbs` service now restarts correctly after Docker update or reboot
+- Web3signer service to lower key security works with large number of keys
+
 ## v26.5.0 2026-05-12
 
 *This is a recommended release*
