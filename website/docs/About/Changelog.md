@@ -17,11 +17,29 @@ instead.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
 
+## v26.6.1 2026-06-20
+
+*This is an optional release*
+
+Changes
+- Teku uses Auto-ENR with IPv6. Requires Teku `v26.6.1` or later
+- Support Reth EraE import. Requires Reth `v2.4.0` or later
+- Support Nimbus EL EraE import. Requires Nimbus EL `v0.3.1` or later
+- Support Nimbus EL rolling expiry. Requires Nimbus EL `v0.3.1` or later
+- When using a multi-user setup, `sudo` less
+- Add pre-provisioned time sync drift alerts to Grafana
+- Bump Tempo to `3.0.2`
+- Switch Teku/Besu/Web3signer source builds to Ubuntu 26.04
+- Adjust Reth source build to be able to build from current `main`
+
+Bug fixes
+- Show correct `.env` diff during `./ethd update`
+
 ## v26.6.0 2026-06-05
 
 *This is an optional release*
 
-**Changes**
+Changes
 - Support Nethermind EraE import
 - CNAMEs can be automatically created when using `traefik-cf.yml`, see `CNAME_LIST` in `.env`
 - Bump Tempo to `3.0.0` and migrate configuration
@@ -31,7 +49,7 @@ instead.
 - Do not print the Prometheus version, just print Grafana
 - Timestamp `.env.bak` files during `./ethd update`
 
-**Bug fixes**
+Bug fixes
 - Fix Geth EraE import
 - Tempo retains traces for 14 days now, not 1 hour
 - Fix slashing protection import during `./ethd keys import` - thanks @oksanaphmn !
@@ -52,8 +70,7 @@ instead.
 - Nethermind and FlatDB requires `1.37.1` or later
 - Vero source build requires `1.4.0` or later
 
-**Changes**
-
+Changes
 - Better Reth download handling, requires Reth `2.1.0` or later
 - Support Reth DB migration to v2, requires Reth `2.1.0` or later
 - Support Nethermind FlatDB
@@ -79,7 +96,7 @@ Eth Docker, when all three are in a common group such as `node-admins` and that 
 - Cleaner node exporter configuration
 - Grandine source builds can optionally pull in a host-built binary instead of building inside the container
 
-**Bug fixes**
+Bug fixes
 - Obol Alloy service is now distinct from generic Alloy service
 - `./ethd update` handles migration from Obol promtail to Obol Alloy
 - Obol Alloy correctly delivers Charon metrics
