@@ -169,14 +169,18 @@ containers. "Rootless mode Docker" is limited, but should work to an extent.
 
 ## Change Docker storage location
 
-Taken from the [RocketPool docs](https://docs.rocketpool.net/guides/node/docker.html#configuring-docker-s-storage-location)
+See also the [Docker documentation](https://docs.docker.com/engine/daemon/#configure-the-data-directory-location)
 
 By default, Docker will store all of its container data on your operating system's drive. In some cases, this is
 **not** what you want. For example, you may have a small boot drive and a second larger SSD for the chain data.
 
 > If you have just one drive and are good with the default behavior, don't make these adjustments
 
-To change the Docker volume location, create a new file called /etc/docker/daemon.json as the root user:
+There are two locations to change, and they have to point to separate directories: The storage directory, and
+the container data.
+
+To change the Docker storage directory, where chain data is stored among other things, create a new file
+called /etc/docker/daemon.json as the root user:
 
 ```
 sudo nano /etc/docker/daemon.json
@@ -186,29 +190,51 @@ Add this as the contents:
 
 ```
 {
-    "data-root": "<your external mount point>/docker"
+    "data-root": "/<your external mount point>/docker"
 }
 ```
 
-where `<your external mount point>` is the directory that your other drive is mounted to, e.g. `/mnt/sata`
+where `/<your external mount point>` is the directory that your other drive is mounted to, e.g. `/mnt/nvme2`
 
 Next, make the folder:
 
 ```
-sudo mkdir -p <your external mount point>/docker
+sudo mkdir -p /<your external mount point>/docker
 ```
 
 If you already have existing volumes that you want to move, stop Docker and move them over:
 
 ```
 sudo systemctl stop docker
-sudo cp -rp /var/lib/docker <your external mount point>/
+sudo cp -rp /var/lib/docker /<your external mount point>/
+```
+
+To change the location that images are stored in when using the default `containerd` image store,
+change the file `/etc/containerd/config.toml`
+```
+sudo nano /etc/containerd/config.toml
+```
+
+Find a line that starts with `#root =` and change it to:
+```
+root = "/<your external mount point>/containerd"
+```
+
+Next, make the folder:
+
+```
+sudo mkdir -p /<your external mount point>/containerd
 ```
 
 Now, restart the Docker daemon so it picks up on the changes:
 
 ```
 sudo systemctl restart docker
+```
+
+Tell Docker that it should remove all old container image references:
+```
+sudo systemctl docker prune -af
 ```
 
 After that, Docker will store its data on your desired disk.
