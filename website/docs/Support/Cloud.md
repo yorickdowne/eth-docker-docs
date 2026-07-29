@@ -8,7 +8,7 @@ For the most part, nothing special needs to be done to run Eth Docker on a VPS. 
 filter the traffic that can reach the machine: This is definitely not desirable for unsecured ports like Grafana
 or execution client, if the shared option is being used. All that should be reachable are the P2P ports.
 
-The arguably best way to secure Grafana, Web UI and execution client ports is via encryption. For this, please see the [secure proxy](../Usage/ReverseProxy.md)
+The arguably best way to secure Grafana and execution client ports is via encryption. For this, please see the [secure proxy](../Usage/ReverseProxy.md)
 instructions.
 
 If you prefer to keep the ports unencrypted and wish to secure them via ufw, please read on.
@@ -124,26 +124,6 @@ Check again on "yougetsignal" or the like that port 3000 is now closed.
 
 Connect to your node with ssh tunneling, e.g. `ssh -L3000:node-IP:3000 user@node-IP` and browse to `http://127.0.0.1:3000` on the client
 you started the SSH session *from*. You expect to be able to reach the Grafana dashboard.
-
-## Example: Prysm Web UI on port 7500
-
-Reference [common ufw rules and commands](https://www.digitalocean.com/community/tutorials/ufw-essentials-common-firewall-rules-and-commands)
-to help in creating ufw rules.
-
-Say I have the Prysm Web UI enabled on port 7500 and no reverse proxy. I'd like to keep it reachable via [SSH tunnel](https://www.howtogeek.com/168145/how-to-use-ssh-tunneling/)
-while dropping all other connections.
-
-First, verify that Prysm Web UI is running and port 7500 is open to world using something like [you get signal](https://www.yougetsignal.com/tools/open-ports/)
-
-Next, create ufw rules to allow access from `localhost` and drop access from anywhere else:
-
-- `sudo ufw allow proto tcp from 127.0.0.1 to any port 7500`
-- `sudo ufw deny proto tcp from any to any port 7500`
-
-Check again on [you get signal](https://www.yougetsignal.com/tools/open-ports/) or the like that port 7500 is now closed.
-
-Connect to your node with ssh tunneling, e.g. `ssh -L7500:node-IP:7500 user@node-IP` and browse to `http://127.0.0.1:7500` on the client
-you started the SSH session *from*. You expect to be able to reach the Prysm Web UI.
 
 ## Example: Shared or standalone execution client on port 8545
 

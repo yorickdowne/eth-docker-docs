@@ -120,7 +120,7 @@ Forward only the ports that you actually use, depending on your client choices.
 
 - 30303 tcp/udp - Geth/Nethermind/Besu/Erigon execution client P2P. Open to Internet.
 - 9000 tcp/udp - Lighthouse/Teku/Nimbus/Lodestar/Prysm consensus client P2P. Open to Internet.
-- 443 tcp - https:// access to Grafana and Prysm Web UI via traefik. Open to Internet.
+- 443 tcp - https:// access to Grafana via traefik. Open to Internet.
 - 22/tcp - SSH. Only open to Internet if you want to access the server remotely. If open to Internet, configure
   SSH key authentication.
 

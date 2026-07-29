@@ -103,8 +103,6 @@ not be exposed to the Internet. Using encryption instead via `traefik-*.yml` is 
 You can add yml files to `CUSTOM_FILES` if they wouldn't be ever added by `./ethd config`:
 - `siren.yml` - Lighthouse's Siren UI
 
-> See [Prysm Web](../../Usage/WebUI.md) for notes on using the Prysm Web UI
-
 Optionally, add ethdo for beacon chain queries:
 
 - `ethdo.yml` - add Attestant's ethdo tool for querying your consensus layer aka beacon node
