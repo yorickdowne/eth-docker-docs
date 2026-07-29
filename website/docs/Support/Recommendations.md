@@ -22,9 +22,9 @@ you will need to open in `ufw` depend on the client you choose.
 
 ## Firewalling
 
-execution client: 30303 tcp/udp, forwarded to your server<br />
-consensus client: 9000 tcp/udp, forwarded to your server<br />
-grafana/web UI: 443 tcp, forwarded to your server, assuming you are using the reverse proxy.<br />
+execution client: 30303 tcp/udp, forwarded to your server  
+consensus client: 9000 tcp/udp, forwarded to your server  
+grafana: 443 tcp, forwarded to your server, assuming you are using the reverse proxy.  
 
 > The grafana port is insecure http:// if no reverse proxy is in use,
 > and should then only be access locally.

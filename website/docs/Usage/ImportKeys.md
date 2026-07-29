@@ -84,9 +84,6 @@ Do **not** run keys in both the client directly and web3signer. This can get you
 **Warning** Import your validator key(s) to only *one* client. If you run them in two locations at once,
 you will be slashed: Forcibly exited and assessed a penalty greater than 1 ETH.
 
-> If you use the [Prysm Web](../Usage/WebUI.md), you can use it
-> or this command-line process to import keys.
-
 ### Prysm - create a wallet
 
 Prysm requires a wallet first. Run `./ethd cmd run --rm create-wallet`, which will set up a wallet and a password for it. You can then print the password with `./ethd keys get-prysm-wallet`

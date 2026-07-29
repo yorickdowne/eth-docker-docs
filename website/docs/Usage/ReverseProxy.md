@@ -4,7 +4,7 @@ sidebar_position: 10
 sidebar_label: Secure Web Proxy
 ---
 
-You can use the "[traefik](https://traefik.io/)" secure web proxy to get to the Grafana Dashboard and Prysm Web UI via
+You can use the "[traefik](https://traefik.io/)" secure web proxy to get to the Grafana Dashboard via
 https:// instead of insecure http://. It can also be used to encrypt the RPC and WS ports of your execution client, so
 they are reachable via https:// and wss:// respectively. In addition, it can be used to separate the consensus client
 and validator client to different machines.
@@ -13,13 +13,12 @@ You will require a domain name for this to work. Where you buy it is up to you.
 
 As a 450m overview, traefik will be reachable via port 443 / https from the Internet (configurable, could be 8443 if
 you prefer). All browsing attempts to it will be checked by traefik for their hostname, and it steers traffic to the
-right container thereby: To Grafana, to Prysm Web UI, and to the execution client. Grafana, Prysm web UI, Siren,
+right container thereby: To Grafana, and to the execution client. Grafana, Siren,
 RPC and WS ports and for `cl-only.yml` REST ports will be reachable on their configured hostname if traefik
 is configured. If you want Grafana and not RPC, for example, simply do not create a DNS (CNAME) entry for RPC.
 
 For example, say I have a domain `example.com`, left the `_HOST` and port settings in `.env` at default, and am running
-Prysm with Grafana and Web UI.  `https://grafana.example.com/` will get me to my Grafana dashboard, and
-`https://prysm.example.com` to my Prysm Web UI.
+Prysm with Grafana.  `https://grafana.example.com/` will get me to my Grafana dashboard.
 
 ## Cloudflare for DNS management
 
