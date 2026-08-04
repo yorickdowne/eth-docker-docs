@@ -11,7 +11,7 @@ If you wish to run Eth Docker on Windows regardless, this is what's required.
 
 - Windows 11 Pro 24H2 or later, ideally with 64 GiB RAM so that WSL defaults to 30 GiB
 - [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/about), the "Windows Subsystem for Linux", which runs a Linux
-kernel in a lightweight VM
+kernel in a lightweight VM. WSL 2.7.11 and newer works with v4/v6 dual-stack.
 - WSL networking that is reachable from the LAN
 - Functioning time sync
 
