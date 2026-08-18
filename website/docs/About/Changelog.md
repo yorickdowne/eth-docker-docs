@@ -17,6 +17,21 @@ instead.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
 
+## v26.8.0 2026-08-18
+
+*This is a required release for users of Teku, and optional for everyone else*
+
+Changes
+- Support Teku `v26.8.0`
+- Nethermind log index is set in `EL_EXTRAS`, so users can disable it
+- Support Geth Pebble v2 migration via `./ethd migrate-geth`
+- Remove deprecated Prysm web UI
+- Teku uses the same port for IPv4 and IPv6
+- Grafana disk usage panel tracks where Docker root is mounted. Thanks to @cpi3t!
+- Reth uses ENR bootnodes with custom networks. Requires Reth `v2.5.0` or later
+- Bump Tempo to `v3.0.3`
+- Use the new commit-boost Docker repository
+
 ## v26.7.2 2026-07-22
 
 *This is a recommended release for users of Nethermind, Nimbus EL and Nimbus archive node, and optional for everyone else*
