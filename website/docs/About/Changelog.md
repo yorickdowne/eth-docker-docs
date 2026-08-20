@@ -17,6 +17,23 @@ instead.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
 
+## v26.8.1 2026-08-20
+
+*This is a required release for users of Besu, and optional for everyone else*
+
+Changes
+- Support Besu `v26.8.0`
+- Besu uses the same port for IPv4 and IPv6
+- Besu `full` node uses `full` sync, as snap sync is no longer supported for it
+- Reth rolling expiry keeps `33_024` epochs, ~5 months, instead of 1 year
+- Besu rolling expiry keeps `33_024` epochs, ~5 months, instead of 1 year
+- Erigon rolling expiry keeps `33_024` epochs, ~5 months, instead of 1 year
+- `./ethd config` offers more expiry options
+- `./ethd prune-history` offers rolling expiry for Nimbus EL and Nimbus Unified
+- Hide `pre-prague-expiry` and `aggressive-expiry` node types. They do still work for those clients that have them
+- During `./ethd update`, warn user of leveldb when using Teku
+- `./ethd config` creates `ufw` rules for node-exporter when `grafana.yml` is in use
+
 ## v26.8.0 2026-08-18
 
 *This is a required release for users of Teku, and optional for everyone else*

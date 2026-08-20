@@ -18,22 +18,19 @@ This is controlled by variables in `.env`, which can be set with `nano .env`. Sw
 - `archive`
 - `full`
 - `pre-merge-expiry` - the default
-- `pre-cancun-expiry` - supported by some EL clients, see `default.env`
-- `rolling-expiry` - keeps one year of history by default. Supported by some EL clients, see `default.env`
-- `aggressive-expiry` - keep minimal history. Supported by some EL clients, see `default.env`
+- `rolling-expiry` - keeps ~5 months of history
 
-Please be careful with expiry options: Expired history also means expired receipts, which can throw protocols such as RocketPool, SSV, Stakewise for a loop. All of these work with pre-merge-expiry, but will likely break with the other expiry options, unless they get receipts from another (unexpired) RPC endpoint.
+Please be careful with expiry options: Expired history also means expired receipts, which can throw protocols such as SSV and Stakewise for a loop. Both work with pre-merge-expiry, but will likely break with rolling expiry, unless they get receipts from another (unexpired) RPC endpoint.
 
 `CL_NODE_TYPE` can be one of:
 - `archive`
 - `full`
 - `pruned` - the default
-- `pruned-with-zkproofs` - **highly** experimental running mode without an execution layer client, currently only supported by a special build of Lighthouse
 
 ## Switch from Full to Expired node
 
 You can use `./ethd prune-history` to switch the execution layer client to history expiry, in some cases without resync. Note that Besu requires 200 GiB free for this, and
-it will take less space if instead it is resynced with `./ethd resync-execution` while `EL_MINIMAL_NODE=true`
+it will take less space if instead it is resynced with `./ethd resync-execution` while `EL_NODE_TYPE=pre-merge-expiry`.
 
 ## State pruning
 
