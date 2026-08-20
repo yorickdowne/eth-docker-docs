@@ -21,6 +21,9 @@ instead.
 
 *This is a required release for users of Besu, and optional for everyone else*
 
+**Breaking** changes
+- Requires Besu `v26.8.0` or later
+
 Changes
 - Support Besu `v26.8.0`
 - Besu uses the same port for IPv4 and IPv6
