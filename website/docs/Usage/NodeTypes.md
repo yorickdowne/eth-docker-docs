@@ -19,6 +19,7 @@ This is controlled by variables in `.env`, which can be set with `nano .env`. Sw
 - `full`
 - `pre-merge-expiry` - the default
 - `rolling-expiry` - keeps ~5 months of history
+- `custom` - use whatever expiry and database configuration the client defaults to, and set additional parameters via `EL_EXTRAS` in `.env`
 
 Please be careful with expiry options: Expired history also means expired receipts, which can throw protocols such as SSV and Stakewise for a loop. Both work with pre-merge-expiry, but will likely break with rolling expiry, unless they get receipts from another (unexpired) RPC endpoint.
 
