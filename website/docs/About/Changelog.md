@@ -19,10 +19,11 @@ instead.
 
 ## v26.8.2 2026-08-29
 
-*This is a required release for users of Nimbus*
+*This is a recommended release for users of Nimbus*
 
 **Security**
 - Update transitive dependencies in `traefik-utils/app`, fixing vulnerabilities. None of these vulnerabilities were reachable in Eth Docker code. Thanks to @begininvoke!
+```
   urllib3==2.5.0:
     - PYSEC-2026-141
     - PYSEC-2026-1994
@@ -30,6 +31,7 @@ instead.
     - PYSEC-2026-1998
   idna==3.10:
     - PYSEC-2026-215
+```
 
 **Breaking** changes
 - Requires Nimbus `v26.8.0` or later
