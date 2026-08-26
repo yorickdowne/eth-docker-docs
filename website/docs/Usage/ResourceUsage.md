@@ -27,20 +27,20 @@ SSD and RAM use is after initial sync, when keeping up with head.
 
 Please pay attention to the Version and Date. These are snapshots in time of client behavior. Initial database size increases over time, and execution clients are always working on improving their storage engines.
 
-DB Size is shown with values for different types of nodes: Full, and different levels of expiry: Post-Merge history only; Post-Cancun history only; rolling expiry; aggressive expiry.
+DB Size is shown with values for different types of nodes: Full, and different levels of expiry: Post-Merge history only; rolling expiry for `33_024` epochs.
 "tbd" means I haven't gathered the data. "n/a" means the client does not support this expiry mode, yet.
 
-| Client | Version | Date | DB Full | DB Post-Merge | DB Post-Prague | DB Rolling | DB Aggressive | RAM | Notes |
-|--------|---------|------|---------|---------------|----------------|------------|---------------|-----|-------|
-| Geth   | 1.17.2 | April 2026 | ~1.2 TiB | ~830 GiB | ~580 GiB | n/a | n/a | ~ 8 GiB | |
-| Nethermind | 1.36.2 | April 2026 | ~1.1 TiB | ~740 GiB | ~468 GiB | ~240 GiB | n/a | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
-| Nethermind | 1.37.1 | April 2026 | ~1.4 TiB | ~1 TiB  | ~500 GiB | ~255 GiB | n/a | ~10 GiB | With FlatInTrie FlatDB |
-| Nethermind | 1.37.1 | April 2026 | ~1.5 TiB | ~1.1 TiB  | ~550 GiB | ~310 GiB | n/a | ~15 GiB | With Flat FlatDB |
-| Besu | v26.1.0 | February 2026 | ~1.35 TiB | ~850 GiB | n/a | ~560 GiB | ~290 GiB | ~10 GiB | |
-| Reth | 2.5.0 | August 2026 | ~1.8 TiB | ~1 TiB  | ~475 GiB | ~395 GiB | ~248 GiB | ~14 GiB | with receipts, exception "Aggressive" |
-| Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | n/a | ~640 GiB | ~355 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
-| Nimbus | 0.4.0 | August 2026 | tbd | ~755 GiB | n/a | tbd | n/a | tbd | |
-| Ethrex | 21.0.0 | July 2026 | n/a | ~500 GiB | n/a | n/a | n/a | ~17 GiB | ~30 GiB RAM while snap syncing. DB excludes historical receipts: Don't use with RocketPool, SSV, NodeSet |
+| Client | Version | Date | DB Full | DB Post-Merge | DB Rolling | RAM | Notes |
+|--------|---------|------|---------|---------------|------------|-----|-------|
+| Geth   | 1.17.2 | April 2026 | ~1.2 TiB | ~830 GiB | n/a | ~ 8 GiB | |
+| Nethermind | 1.36.2 | April 2026 | ~1.1 TiB | ~740 GiB | ~240 GiB | ~7 GiB | With HalfPath, can automatic online prune at ~350 GiB free |
+| Nethermind | 1.37.1 | April 2026 | ~1.4 TiB | ~1 TiB  | ~255 GiB | ~10 GiB | With FlatInTrie FlatDB |
+| Nethermind | 1.37.1 | April 2026 | ~1.5 TiB | ~1.1 TiB | ~310 GiB | ~15 GiB | With Flat FlatDB |
+| Besu | v26.8.0 | August 2026 | ~1.5 TiB | ~1.1 TiB | ~430 GiB | ~10 GiB | |
+| Reth | 2.5.0 | August 2026 | ~1.8 TiB | ~1 TiB | ~395 GiB | ~14 GiB | with receipts |
+| Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | ~640 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
+| Nimbus | 0.4.0 | August 2026 | tbd | ~755 GiB | tbd | tbd | |
+| Ethrex | 21.0.0 | July 2026 | n/a | ~500 GiB | n/a | ~17 GiB | ~30 GiB RAM while snap syncing. DB excludes historical receipts: Don't use with RocketPool, SSV, NodeSet |
 
 Notes on disk usage
 - All clients other than "Nethermind with HalfPath DB" continously prune state
