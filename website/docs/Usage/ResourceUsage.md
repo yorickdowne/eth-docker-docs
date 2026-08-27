@@ -38,7 +38,7 @@ DB Size is shown with values for different types of nodes: Full, and different l
 | Nethermind | 1.37.1 | April 2026 | ~1.5 TiB | ~1.1 TiB | ~310 GiB | ~15 GiB | With Flat FlatDB |
 | Besu | v26.8.0 | August 2026 | ~1.5 TiB | ~1.1 TiB | ~430 GiB | ~10 GiB | |
 | Reth | 2.5.1 | August 2026 | ~1.8 TiB | ~1 TiB | ~400 GiB | ~14 GiB | with receipts |
-| Erigon | 3.3.8 | February 2026 | ~1.0 TiB | ~650 GiB | ~640 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
+| Erigon | 3.6.0 | August 2026 | ~1.0 TiB | ~650 GiB | ~590 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
 | Nimbus | 0.4.0 | August 2026 | tbd | ~755 GiB | tbd | tbd | |
 | Ethrex | 21.0.0 | July 2026 | n/a | ~500 GiB | n/a | ~17 GiB | ~30 GiB RAM while snap syncing. DB excludes historical receipts: Don't use with RocketPool, SSV, NodeSet |
 
