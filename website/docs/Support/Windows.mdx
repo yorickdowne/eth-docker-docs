@@ -84,7 +84,7 @@ task to keep WSL in sync with your Windows clock. From non-admin Powershell, run
 `schtasks /Create /TN WSLTimeSync /TR "wsl -u root hwclock -s" /SC ONEVENT /EC System /MO "*[System[Provider[@Name='Microsoft-Windows-Kernel-Power'] and (EventID=107 or EventID=507) or Provider[@Name='Microsoft-Windows-Kernel-General'] and (EventID=1)]]" /F`.
 
 Docker
-- Use the [QuickStart](../Usage/QuickStart.md) instructions to install Eth Docker and get Docker-CE installed in Ubuntu. Log out and back in so your user can run Docker commands.
+- Use the [QuickStart](../Usage/QuickStart.mdx) instructions to install Eth Docker and get Docker-CE installed in Ubuntu. Log out and back in so your user can run Docker commands.
 
 Start on boot
 - Your node needs to run after Windows reboot for 24/7 uptime. WSL only starts well with a logged-in user.

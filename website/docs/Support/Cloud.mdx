@@ -8,7 +8,7 @@ For the most part, nothing special needs to be done to run Eth Docker on a VPS. 
 filter the traffic that can reach the machine: This is definitely not desirable for unsecured ports like Grafana
 or execution client, if the shared option is being used. All that should be reachable are the P2P ports.
 
-The arguably best way to secure Grafana and execution client ports is via encryption. For this, please see the [secure proxy](../Usage/ReverseProxy.md)
+The arguably best way to secure Grafana and execution client ports is via encryption. For this, please see the [secure proxy](../Usage/ReverseProxy.mdx)
 instructions.
 
 If you prefer to keep the ports unencrypted and wish to secure them via ufw, please read on.
@@ -142,7 +142,7 @@ to the actual defaults by adding more specific rules. For the Docker default sub
 `after.rules`.
 
 > With ISP traffic caps, it could be quite attractive to run the execution client in a small VPS, and reference it from a consensus client somewhere
-> else. This requires a [secure proxy](../Usage/ReverseProxy.md).
+> else. This requires a [secure proxy](../Usage/ReverseProxy.mdx).
 
 ## Allowing IPv6 traffic
 

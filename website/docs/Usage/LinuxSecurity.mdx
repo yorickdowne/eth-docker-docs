@@ -105,7 +105,7 @@ clients for faster peer acquisition.
 Docker will open execution and consensus client P2P (Peer to Peer) ports and the Grafana port automatically. Please make sure the Grafana port cannot be reached directly. If you need to get to Grafana remotely,
 an [SSH tunnel](https://www.howtogeek.com/168145/how-to-use-ssh-tunneling/) is a good choice.
 
-For a VPS/cloud setup, please take a look at notes on [cloud security](../Support/Cloud.md). You'll want to
+For a VPS/cloud setup, please take a look at notes on [cloud security](../Support/Cloud.mdx). You'll want to
 place ufw "in front of" Docker if you are using Grafana or a standalone execution client without a reverse proxy,
 and if your cloud provider does not offer firewall rules for the VPS.
 
@@ -144,7 +144,7 @@ which means that the P2P ports need not be explicitly listed in ufw.
 > mapped by Docker, where the traffic originates somewhere on the same machine the container runs on,
 > and not from a machine somewhere else, will not be automatically handled by the Docker firewall rules,
 > and will require an explicit ufw rule.
-> Steps to allow for this scenario are in [cloud security](../Support/Cloud.md)
+> Steps to allow for this scenario are in [cloud security](../Support/Cloud.mdx)
 
 
 ## Additional and recommended Linux performance tuning

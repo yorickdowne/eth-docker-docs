@@ -526,7 +526,7 @@ The headline feature is support for the Ethrex and Anchor clients.
 - Require Lodestar `1.34.1` or later
 - Require Reth `1.8.0` or later
 - `nodeexporter` uses `host` networking, which uses a configurable port and requires changes to `ufw` **if**
-ufw has been placed "in front of" Docker, see [Cloud Security](../Support/Cloud.md).
+ufw has been placed "in front of" Docker, see [Cloud Security](../Support/Cloud.mdx).
 
 Changes
 - Support Ethrex execution client
@@ -2190,7 +2190,7 @@ from scratch of the DB.
 *This is an optional upgrade, that contains new features*
 
 * `sudo ./ethd prune-geth` simplifies pruning Geth
-* Separating consensus client and validator client is now supported for Teku, Lighthouse and Prysm. Please see the [Secure Web Proxy](../Usage/ReverseProxy.md) instructions.
+* Separating consensus client and validator client is now supported for Teku, Lighthouse and Prysm. Please see the [Secure Web Proxy](../Usage/ReverseProxy.mdx) instructions.
 ## v1.2.5.2 2021-06-07
 
 *This is a bugfix upgrade*
@@ -2307,7 +2307,7 @@ instructions.
   a breaking change for existing Grafana, Prysm Web and shared/standalone eth1 clients. You will need to
   add `grafana-insecure.yml`, `prysm-web-insecure.yml`, `eth1-insecure.yml`, depending on service you use,
   to your `COMPOSE_FILE` inside `.env`. Alternatively and recommended, add `traefik-cf.yml` or `traefik-aws.yml`
-  and start using secure https:// ! Please see [reverse proxy instructions](../Usage/ReverseProxy.md).
+  and start using secure https:// ! Please see [reverse proxy instructions](../Usage/ReverseProxy.mdx).
 * Added wizard.sh shell script for quick initial setup
 * Added node reporter Grafana dashboard to alert on low CPU, Memory or Disk Space
 
