@@ -347,10 +347,12 @@ Podman works from Podman `v6.0` on. Podman `v6.1` and later supports IPv4/IPv6 d
 Networking needs to be changed so that P2P connections work.
 
 Install Podman and `crun` or `runc`. On Debian choose `crun`, not `runc`. `runc` in Debian is vulnerable and will not be updated for Trixie and earlier
-`sudo apt update && sudo apt install podman crun`
+```sh
+sudo apt update && sudo apt install podman crun
+```
 
 Add alias and env vars to the end of `~/.profile`
-```
+```sh
 cat <<EOF >>~/.profile
 export DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
 export DOCKER_HOST=unix:///run/user/$(id -u)/podman/podman.sock
@@ -360,22 +362,24 @@ EOF
 ```
 
 Activate
-`source ~/.profile`
+```sh
+source ~/.profile
+```
 
 Change podman to use pasta's experimental pesto port forwarder, so the CL can get peers.
 
-```
+```sh
 mkdir -p ~/.config/containers
 nano ~/.config/containers/containers.conf
 ```
 then
-```
+```sh
 [network]
 rootless_port_forwarder="pasta"
 ```
 
 Test:
-```
+```sh
 systemctl --user start dbus
 podman info
 echo $DOCKER_CONFIG
@@ -383,7 +387,7 @@ echo $DOCKER_CONFIG
 
 Download docker compose plugin
 
-```
+```sh
 mkdir -p "$DOCKER_CONFIG"/cli-plugins
 curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
   -o $DOCKER_CONFIG/cli-plugins/docker-compose
@@ -391,13 +395,19 @@ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 ```
 
 Test
-`podman compose version`
+```sh
+podman compose version
+```
 
 Enable podman socket
-`systemctl --user enable --now podman.socket`
+```sh
+systemctl --user enable --now podman.socket
+```
 
 Confirm socket connection
-`podman info | grep -iA2 socket`
+```sh
+podman info | grep -iA2 socket
+```
 
 ## macOS Prerequisites
 
