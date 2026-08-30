@@ -427,6 +427,10 @@ You can check installed versions with `passt --version` and `pasta --version`.
 
 Docker rootless does not use pasta/pesto by default, and so side-steps this requirement.
 
+@hughmongas reports that pasta caused issues on a multi-homed server with two or more network connections:
+"If you have a dual homed server, you can no longer specify a port with "192.168.1.1:30303:30303" that just will not work,
+had to remove the dual home and go 0.0.0.0:30303:30303"
+
 ## macOS Prerequisites
 
 > The following prerequisites apply if you are going to use macOS as a server to run an Ethereum staking full node. If
