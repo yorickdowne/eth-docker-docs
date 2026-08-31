@@ -27,6 +27,20 @@ Some home server builds that I like and am happy to recommend are below. Both In
 they can be managed and power-cycled remotely and need neither a GPU nor monitor. Both support ECC RAM, though the AMD
 option as of Sept 2020 was unable to report ECC errors via IPMI, only OS-level reporting worked.
 
+**Intel RAMpocalypse build**
+
+This is a build with used components from eBay, to deal with the current (2026) insanely high RAM prices
+* SuperMicro X10SDV-4C-TLN2F: ~230 USD
+* 32 GiB of DDR4 RDIMM ECC RAM (registered, this is the bit that makes it affordable): ~140 USD (1x32GB)
+* [2TB or 4TB M.2 NVMe SSD](https://gist.github.com/yorickdowne/f3a3e79a573bf35767cd002cc977b038)
+
+Total without the storage, case and PSU: ~370 USD. Add a mini-ITX case such as the Silverstone ML05-B ~90 USD and a
+PSU like the Seasonic Core BC-650 ~70 USD (way more power than needed, but affordable) and it's ~530 USD for the system.
+Plus drive, e.g. WD SN850X 2TB ~360 USD new. All-in ~910 USD.
+
+The board has IPMI and can be steered entirely without monitor and keyboard, just through a web browser. That includes
+getting into BIOS settings.
+
 **Intel**
 
 * mITX: 
