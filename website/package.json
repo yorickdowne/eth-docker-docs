@@ -40,5 +40,6 @@
   "allowScripts": {
     "core-js@3.50.0": true,
     "@swc/core@1.16.1": true
-  }
+  },
+  "strictAllowScripts": true
 }
