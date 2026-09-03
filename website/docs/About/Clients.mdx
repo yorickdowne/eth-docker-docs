@@ -10,27 +10,20 @@ directly from docker hub or github, respectively. In most cases, binary is the d
 Currently supported consensus clients:
 - [Lodestar](https://github.com/ChainSafe/lodestar)
 - [Nimbus](https://github.com/status-im/nimbus-eth2)
-- [Teku](https://github.com/Consensys/teku)
 - [Grandine](https://github.com/grandinetech/grandine)
+- [Teku](https://github.com/Consensys-Incorporated/teku)
+- [Prysm](https://github.com/OffchainLabs/prysm)
 - [Lighthouse](https://github.com/sigp/lighthouse)
-- [Prysm](https://github.com/prysmaticlabs/prysm)
+- [Caplin](https://github.com/erigontech/erigon)
 
 Currently supported execution clients:
-- [Reth](https://github.com/paradigmxyz/reth)
-- [Besu](https://github.com/hyperledger/besu)
-- [Nethermind](https://github.com/NethermindEth/nethermind)
-- [Geth](https://github.com/ethereum/go-ethereum)
-- [Erigon](https://github.com/ledgerwatch/erigon)
 - [Ethrex](https://github.com/lambdaclass/ethrex)
+- [Nethermind](https://github.com/nethermindeth/nethermind)
+- [Reth](https://github.com/paradigmxyz/reth)
+- [Besu](https://github.com/besu-eth/besu)
+- [Geth](https://github.com/ethereum/go-ethereum)
+- [Erigon](https://github.com/erigontech/erigon)
 - [Nimbus EL](https://github.com/status-im/nimbus-eth1)
 
 > An Ethereum node has one consensus client and one execution client. Eth Docker can be used to split this between two
 machines, but that distributed setup is rare
-
-Currently supported additional options:
-- Sending stats to https://beaconcha.in
-- Prysm Web UI
-- Grafana dashboard
-- slasher - running slasher is optional and requires additional resources
-
-Please see [Prysm Web](../Usage/WebUI.mdx) for Web UI support on Prysm.
