@@ -28,6 +28,27 @@ If you're on a home network, set up [port forwarding](https://portforward.com/) 
 look at the WAN IP of your router and at https://www.whatismyip.com/. If they match, you are not behind CGNAT. If they don't, you are. Use IPV6 dual-stack and/or ask your ISP
 for a static (fully public) IPv4 address to resolve this.
 
+### Automatic public IP detection
+
+Clients do not know their own public address. They learn it from their peers: each peer reports back the address and
+port it saw a packet arrive from, and the client writes that into the record other nodes use to dial it.
+Behind a home firewall, whether that record ends up correct depends on how your router maps outbound UDP.
+
+If your router keeps one external UDP port per internal port, whatever the destination, then every peer reports the
+same address and port, and the client can detect its external IPv4 . This is "endpoint-independent mapping", EIM-NAT for UDP.
+
+If your router instead picks a fresh external port for every destination it talks to, each peer reports a different port.
+The public IPv4 address may not be detected by the client, if the client looks for peers that report the same IP and port for its discv5.
+
+`./ethd port-check` can help you troubleshoot. It prints the discovered IPv4 and IPv6 addresses, will show you whether incoming peering works,
+and will attempt to detect your CGNAT status.
+
+Possible solutions if the IPv4 external address is not picked up:
+
+- On your router, find the outbound NAT rule and see whether something like "EIM-NAT for UDP" or "endpoint independent mapping"
+or "restricted cone" is available for the outbound UDP traffic.
+- Enable [IPv6](../Support/ipv6.mdx). There is no NAT in the way, and detection of the public IPv6 address will work.
+
 ## Firewalling
 
 In a home network, nothing special is required for firewalling. You can use UFW and allow only OpenSSH, if you like.
