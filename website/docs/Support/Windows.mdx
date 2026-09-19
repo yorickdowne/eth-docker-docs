@@ -33,7 +33,8 @@ networkingMode=mirrored
 ```
 - Mirrored networking shares the MAC address, IPv4 address and IPv6 address of the Windows host machine. On your
 router, set a DHCP reservation for this machine so WSL always has the same local IP; or configure Windows with a static
-IP. This makes port forwarding of the P2P ports possible, and makes remote access easier.
+IP. This makes port forwarding of the P2P ports possible, and makes remote access easier. Sharing the addresses is not
+by itself enough to be reachable: see "Inbound P2P connections" below.
 - Check memory assigned to WSL with `free -h`. If it's too low for your chosen client mix, edit `.wslconfig` in your
 Windows home directory and add a memory section and disable swap, for example
 ```
@@ -46,6 +47,44 @@ swap=0
 [wsl2]
 defaultVhdSize=2199023255552
 ```
+
+Inbound P2P connections
+
+Your node needs inbound connections to attract peers. Outbound works out of the box; inbound does not.
+
+- **Inbound IPv6 does not work for Docker containers on WSL 2.** As of September 2026, tested with WSL 2.9.12 on
+Windows build 26200, inbound IPv6 connections to a published container port never arrive. A listener running directly
+in WSL, outside Docker, *is* reachable over IPv6, and inbound IPv4 to the very same published port works at the same
+moment, so the restriction is specific to Docker's published ports under WSL's mirrored networking. Docker publishes a
+port by rewriting the destination address to the container's, and it is that path which fails. This is not a firewall
+issue: it persists with the Hyper-V firewall set to allow all inbound and with matching Windows Defender Firewall
+rules in place. Since Eth Docker runs its clients in containers, leave `IPV6=false` in your `.env`. If you want an
+IPv6-reachable node, run it on native Linux.
+- **Inbound IPv4 needs Hyper-V firewall rules.** The Hyper-V firewall is a separate layer from Windows Defender
+Firewall, it governs traffic into the WSL VM, and it blocks inbound by default. This is the layer that matters;
+you do not normally need Windows Defender Firewall rules as well.
+
+Adjust the ports below to match `CL_P2P_PORT`, `CL_QUIC_PORT` and `EL_P2P_PORT` in your `.env`, then run this from
+an **Administrator** PowerShell. The `VMCreatorId` shown is WSL's and is the same on every machine.
+```
+$wsl = '{40E0AC32-46A5-438A-A0B2-2B479E8F2E90}'
+New-NetFirewallHyperVRule -Name 'ethd-el-tcp' -DisplayName 'Eth Docker EL P2P TCP' -Direction Inbound -VMCreatorId $wsl -Protocol TCP -LocalPorts 30303 -Action Allow
+New-NetFirewallHyperVRule -Name 'ethd-el-udp' -DisplayName 'Eth Docker EL P2P UDP' -Direction Inbound -VMCreatorId $wsl -Protocol UDP -LocalPorts 30303 -Action Allow
+New-NetFirewallHyperVRule -Name 'ethd-cl-tcp' -DisplayName 'Eth Docker CL P2P TCP' -Direction Inbound -VMCreatorId $wsl -Protocol TCP -LocalPorts 9000 -Action Allow
+New-NetFirewallHyperVRule -Name 'ethd-cl-udp' -DisplayName 'Eth Docker CL discv5 UDP' -Direction Inbound -VMCreatorId $wsl -Protocol UDP -LocalPorts 9000 -Action Allow
+New-NetFirewallHyperVRule -Name 'ethd-cl-quic' -DisplayName 'Eth Docker CL QUIC UDP' -Direction Inbound -VMCreatorId $wsl -Protocol UDP -LocalPorts 9001 -Action Allow
+```
+- Verify the rules exist with
+`Get-NetFirewallHyperVRule -VMCreatorId '{40E0AC32-46A5-438A-A0B2-2B479E8F2E90}' | Format-Table DisplayName,Protocol,LocalPorts,Action`
+- Forward the same TCP and UDP ports on your router to this machine, to the reserved IP you set earlier.
+- Test from outside your LAN, not from another machine on it. A service such as
+[ifconfig.co](https://ifconfig.co) will do: `curl -4 https://ifconfig.co/port/30303` reports whether that TCP port is
+reachable. Give your clients a few minutes first, and expect the inbound peer count to climb over the following hour.
+
+> Microsoft is building `wslc`, WSL's own container CLI, and its exposed ports already support IPv6 as of WSL 2.9.8.
+If it gains Compose support ([WSL#40948](https://github.com/microsoft/WSL/issues/40948)), running Eth Docker on it
+may avoid this IPv6 restriction. That issue is an open feature request with no commitment, so this is a direction to
+watch, not something usable today.
 
 WSL
 - From Windows Store, install WSL and Ubuntu current LTS. Debian is also an option, it is however quite bare-bones
