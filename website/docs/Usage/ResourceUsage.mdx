@@ -11,12 +11,11 @@ add 500 GiB to that number in blob space alone. An archive blob node would take 
 
 | Client | Version | Date | DB Size  |  RAM | Notes |
 |--------|---------|----  |----------|------|-------|
-| Caplin | | | tbd | tbd | |
 | Grandine | 2.0.6 | September 2026 | ~15 GiB | tbd | minimal node |
-| Lighthouse | 8.2.2  | September 2026 | ~tbd GiB | ~14 GiB | |
-| Lodestar | 1.42.0 | Apr 2026 | ~tbd GiB | ~12 GiB | |
+| Lighthouse | 8.2.2  | September 2026 | ~15 GiB | ~14 GiB | without blob accumulation |
+| Lodestar | 1.42.0 | Apr 2026 | ~20 GiB | ~12 GiB | without blob accumulation |
 | Nimbus | 26.8.0 | September 2026 | ~90 GiB | ~5 GiB | |
-| Prysm | 7.1.3 | Apr 2026 | ~tbd GiB | ~9 GiB | |
+| Prysm | 7.1.3 | Apr 2026 | ~20 GiB | ~9 GiB | without blob accumulation |
 | Teku   | 26.4.0  | Apr 2026 | ~80 GiB | ~10 GiB | |
 
 # Execution clients
@@ -37,7 +36,7 @@ All clients continously prune state, and can expire history.
 | Client | Version | Date | DB Full | DB Post-Merge | DB Rolling | RAM | Notes |
 |--------|---------|------|---------|---------------|------------|-----|-------|
 | Besu | v26.8.1 | September 2026 | >1.7 TiB | ~1.1 TiB | ~430 GiB | ~10 GiB | |
-| Erigon | 3.6.0 | September 2026 | >1.7 TiB | ~tbd TiB | ~590 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
+| Erigon | 3.6.0 | September 2026 | >1.7 TiB | ~1.1 TiB | ~590 GiB | ~18 GiB | Erigon will use available system RAM, but the OS will use it for other processes as needed |
 | Ethrex | 26.0.0 | September 2026 | >1.7 TiB | ~1.6 TiB | n/a | ~17 GiB | ~30 GiB RAM while snap syncing. With history backfill. Full node is only back to Byzantium |
 | Geth   | 1.17.5 | September 2026 | >1.7 TiB | ~1.3 TiB | n/a | ~ 8 GiB | |
 | Nethermind | 2.0.0 | September 2026 | ~1.6 TiB | ~1.2 TiB | ~450 GiB | ~10 GiB | Flat FlatDB, the default, ~13 GiB during sync |
