@@ -16,6 +16,92 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v26.10.0 2026-10-04
+
+*This is a recommended release*
+
+**Manual intervention needed if coming from v26.7.2-dev through v26.9.0-dev**
+
+If you are updating from an Eth Docker version (check with `./ethd version`) of `v26.7.2-dev` up to `v26.9.0-dev`, and you use `grafana.yml` or
+`grafana-cloud.yml`, you may have a directory that was incorrectly created with `root` ownership. In this case, `./ethd update` would fail with an
+unsubtle error  
+To fix this manually, `cd ~/eth-docker` or into the directory where you have Eth Docker installed, then `sudo rm -rf ./prometheus/node-exporter-text`  
+After that you can safely run `./ethd update`
+
+**Deprecations**
+- The legacy `validator-exit` service for Lighthouse, Lodestar, Nimbus, Prysm and Teku is deprecated and support will be removed after Hegotá hardfork. Please switch
+your tooling to use `./ethd keys sign-exit` and `./ethd keys send-exit` instead
+- Nethermind's legacy Patricia/HalfPath DB is deprecated, support will be removed when Nethermind removes support for it. `./ethd update` will warn you;
+you can switch to a Flat DB via `./ethd resync-execution`
+- Nethermind's legacy `nm-eth1-data` volume is deprecated, support will be removed when Nethermind removes support for its Patricia/HalfPath DB. `./ethd update` will
+warn you; you can switch to a supported volume and Flat DB via `./ethd resync-execution`
+- The consensus layer client TCP transport port is deprecated. Make sure to port-forward its UDP QUIC transport port and UDP discovery port. Use `./ethd port-check` to get an overview. Support
+will be removed when the clients remove it, expected sometime Q1 2027
+- `mev-boost.yml` and `commit-boost-pbs.yml` will be removed after Glamsterdam hardfork on mainnet, expected December 2026. Clients are implementing ePBS support,
+which Eth Docker will support as they do. `./ethd update` will warn you
+
+**Breaking changes**
+- Require Nethermind `v2.0.0` or later, for FlatDB support
+- If using `stakewise-expiry`, require Geth `v1.17.7` or later
+- If using ePBS parameters, require Lodestar `v1.47.0` or later
+- If using `blob-archive`, require Nimbus `v26.9.0` or later
+- If using Caplin, require Erigon `v3.7.1` or later
+- Require Docker buildx
+
+Changes
+- New ePBS variables in `.env`: `EPBS_BUILDERS`, `EPBS_BUILDER_URLS`, `EPBS_MIN_BID`, `EPBS_BUILD_FACTOR`
+- Add `./ethd keys [set|get|delete]-builder` command for ePBS
+- Support ePBS on Lodestar
+- Add `./ethd port-check` command. Give it a whirl, it's nifty. `./ethd port-check --troubleshoot` gives instructions on how to test incoming ports
+- Default to Nethermind FlatDB
+- Support Besu bonsai archive
+- Support era1 file import for Besu full node
+- Add `blob-archive` to Nimbus
+- Nethermind `rolling-expiry` keeps `33_024` epochs, not 1 year
+- `./ethd keys` accepts comma-separated validator pubkeys
+- Update Lido oracle allowlist. Thanks to @cnupy!
+- Support QUIC with Nimbus Unified
+- Support QUIC with Caplin
+- Ephemery network support for Lighthouse, Nimbus, Prysm, Geth, Nimbus EL, Nimbus Unified
+- New `EL_NODE_TYPE` `stakewise-expiry` for Geth, Nethermind and Reth
+- Support ENR bootnodes for Nethermind custom networks
+- Geth source build uses Go 1.27
+- Increase Besu default heap to `-Xmx7g`, to help with era1 file import. Adjust with `BESU_HEAP` variable in `.env`
+- Attempt to keep custom `CL_NODE` during `./ethd config`
+- Nag Ubuntu users if their `docker.io` is old
+- Drop default Tempo trace retention to 3 days. Existing `tempo/tempo.yaml` configuration files are not adjusted automatically
+- Bump Tempo to `v3.1.0`
+- Move web3signer key security reduction to `w3s-tools.yml`
+
+Bug fixes
+- Fix Teku dual stack support; separate ports are required for now
+- `./ethd space` displays space only once when disk space is low
+- Fix `./ethd attach-geth` command
+- Fix an issue where `./ethd terminate` in `eth-docker` would also delete volumes in `test-eth-docker`
+- Guard against broken `CORE_FILES` variable in `.env` during `./ethd update` migration
+- Fix `./ethd update` on macOS
+- Set `MAX_BLOBS` to at least `1` during `./ethd config`
+- Fix Nimbus source build
+- Work around keymanager bugs in Lighthouse and Prysm
+
+## v26.9.0 2026-09-02
+
+*This is a bug-fix release for users of Grafana*
+
+**Manual intervention needed**
+
+For users of Grafana:
+Before running `./ethd update`, please `cd ~/eth-docker` or into the directory where you have Eth Docker installed, then `sudo rm -rf ./prometheus/node-exporter-text`. After that you can safely run `./ethd update`
+
+Changes
+- Offer Platåberget testnet during `./ethd config`. Please be sure your chosen clients support it!
+- Besu uses both V4 and V5 P2P discovery. Use Besu `v26.8.1` or later to avoid CPU spikes
+- Change default Teku source repository
+- Minimum Debian version is `12`
+
+Bug fixes
+- `./prometheus/node-exporter-text` is no longer created with `root:root` ownership by `grafana.yml`
+- Prysm's keymanager works again when Web3Signer is in use
 
 ## v26.8.2 2026-08-29
 
