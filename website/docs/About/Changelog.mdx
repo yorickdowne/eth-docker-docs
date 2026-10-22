@@ -16,6 +16,66 @@ instead.
 > On 6/21/2025, Eth Docker's repository name changed. Everything should work as it did.
 > If you do wish to manually update your local reference, run `git remote set-url origin https://github.com/ethstaker/eth-docker.git`
 
+## v26.10.1 2026-10-22
+
+*This is a recommended release for its security content*
+
+**Security**
+- Update transitive dependencies in `traefik-utils/app`, fixing a vulnerability. This was reachable in Eth Docker code: A very sophisticated and well-resourced attacker could have impersonated AWS servers with a man-in-the-middle attack and stolen AWS credentials used in the `ddns` service
+```
+  certifi:
+    - PYSEC-2026-4320
+```
+
+**Manual intervention needed if coming from v26.7.2-dev through v26.9.0-dev**
+
+If you are updating from an Eth Docker version (check with `./ethd version`) of `v26.7.2-dev` up to `v26.9.0-dev`, and you use `grafana.yml` or `grafana-cloud.yml`, you may have a directory that was incorrectly created with `root` ownership. In this case, `./ethd update` would fail with an unsubtle error
+To fix this manually, `cd ~/eth-docker` or into the directory where you have Eth Docker installed, then `sudo rm -rf ./prometheus/node-exporter-text`
+After that you can safely run `./ethd update`
+
+**Deprecations**
+- The legacy `validator-exit` service for Lighthouse, Lodestar, Nimbus, Prysm and Teku is deprecated and support will be removed after Hegotá hardfork. Please switch your tooling to use `./ethd keys sign-exit` and `./ethd keys send-exit` instead
+- Nethermind's legacy Patricia/HalfPath DB is deprecated, support will be removed when Nethermind removes support for it. `./ethd update` will warn you; you can switch to a Flat DB via `./ethd resync-execution`
+- Nethermind's legacy `nm-eth1-data` volume is deprecated, support will be removed when Nethermind removes support for its Patricia/HalfPath DB. `./ethd update` will warn you; you can switch to a supported volume and Flat DB via `./ethd resync-execution`
+- The consensus layer client TCP transport port is deprecated. Make sure to port-forward its UDP QUIC transport port and UDP discovery port. Use `./ethd port-check` to    get an overview. Support will be removed when the clients remove it, expected sometime Q1 2027
+- - `mev-boost.yml` and `commit-boost-pbs.yml` will be removed from your configuration after Glamsterdam hardfork on mainnet, expected December 2026. You can seek them manually if you still want them post-Glamsterdam. Clients are implementing ePBS support, which Eth Docker will support as they do. `./ethd update` will warn you
+
+**Breaking changes**
+- If using ePBS parameters, require Prysm v7.2.1 or later
+- If using `./ethd keys delete-graffiti`, require Prysm v7.2.1 or later
+- If using an archive node, require Prysm v7.3.0 or later
+- If using ePBS parameters, require Teku v26.9.1 or later
+- If using `./ethd keys set-graffiti`, require Teku v26.9.1 or later
+- If using ePBS parameters, require Nimbus v26.10.1 or later
+- If using `./ethd keys get-graffiti`, require Lighthouse v8.3.0 or later
+
+Changes
+- Support Prysm ePBS parameters
+- Support Teku ePBS parameters
+- Support Nimbus ePBS parameters. Note it will only use the last builder URL in the list, for now
+- `./ethd config` has a complete, as of Oct 21st 2026, list of Hoodi and Sepolia ePBS builders/relays
+- Add `./ethd migrate-nethermind` to migrate from legacy to FlatDB. Requires Nethermind v2.2.0 or later
+- Grafana can be used when there is only a VC in the stack, use `grafana-for-vc.yml` in `CUSTOM_FILES` in addition to your existing Grafana files
+- Build the `ddns` service with Python 3.15
+- Rely on default Besu peer discovery. Use Besu 26.10.0 or later if you want both disv4 and discv5 by default, or use `EL_EXTRAS` in previous versions to set it manually
+- The Prysm archive node backfills data
+- Initial support for the ethlambda client, currently in pre-alpha state
+- Support for the eRPC proxy
+- Improve warning prompts for older Docker CE versions
+- Warn user if the Eth Docker stack contains two VCs
+- `ddns` always uses https for IPv4 lookup
+- Update Tempo to `3.1.1`
+- Rolling expiry is more vocal about its length of ~5 months
+- Internal refactor to use more local variables; Python dependency updates for ddns
+- macOS CI switches to a Docker stub, as brew dropped support for Intel macOS and github can't do nested virtualization on ARM64 macOS. Bug reports from macOS users are very welcome, as testing in CI is limited
+
+Bug fixes
+- `./ethd prune-history` can handle coming from `stakewise-expiry` and `pre-osaka-expiry` node types
+- Fix migration logic of yml file names
+- Fix `./ethd version` for Anchor client
+- Fix Prysm source build by reverting to Go 1.26
+- `./ethd config` no longer overwrites a configured `web3signer.yml`
+ 
 ## v26.10.0 2026-10-04
 
 *This is a recommended release*
